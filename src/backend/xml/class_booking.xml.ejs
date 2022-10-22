@@ -1,0 +1,89 @@
+<!DOCTYPE class_booking
+[
+<!ELEMENT class_booking (
+    trainer,
+    booking_start,
+    activity_duration,
+    activity_name,
+    activity_level,
+    location,
+    booked_members
+)>
+<!ELEMENT trainer(first_name, last_name)>
+<!ELEMENT booking_start(time, date)>
+<!ELEMENT activity_duration(#PCDATA)>
+<!ELEMENT activity_name(#PCDATA)>
+<!ELEMENT activity_level(#PCDATA)>
+<!ELEMENT location(gym_address, room_number)>
+<!ELEMENT booked_members(member)>
+<!ELEMENT first_name(#PCDATA)>
+<!ELEMENT last_name(#PCDATA)>
+<!ELEMENT time(#PCDATA)>
+<!ELEMENT date(#PCDATA)>
+<!ELEMENT gym_address(#PCDATA)>
+<!ELEMENT room_number(#PCDATA)>
+<!ELEMENT member(
+    id,
+    first_name,
+    last_name,
+    contact_details,
+    health_conditions
+    
+)>
+<!ELEMENT id(#PCDATA)>
+<!ELEMENT contact_details(phone, email)>
+<!ELEMENT phone(#PCDATA)>
+<!ELEMENT email(#PCDATA)>
+<!ELEMENT health_conditions(#PCDATA)>
+
+]>
+
+<class_booking>
+    <activity_name>Workout Class</activity_name>
+    <activity_duration>2</activity_duration>
+    <activity_level>Hard</activity_level>
+    <trainer>
+        <first_name>John</first_name>
+        <last_name>Doe</last_name>
+    </trainer>
+    <booking_start>
+        <time>10:00</time>
+        <date>28/07/2022</date>
+    </booking_start>
+    <location>
+        <gym_address>00 Something St</gym_address>
+        <room_number>10</room_number>
+    </location>
+    <booked_members>
+        <member>
+            <id>0</id>
+            <first_name>John</first_name>
+            <last_name>Doe</last_name>
+            <contact_details>
+                <phone>0421613017</phone>
+                <email>john@gmail.com</email>
+            </contact_details>
+            <health_conditions>None</health_conditions>
+        </member>
+           <member>
+            <id>1</id>
+            <first_name>Jack</first_name>
+            <last_name>Doe</last_name>
+            <contact_details>
+                <phone>0421613017</phone>
+                <email>john@gmail.com</email>
+            </contact_details>
+            <health_conditions>None</health_conditions>
+        </member>
+           <member>
+            <id>2</id>
+            <first_name>Jill</first_name>
+            <last_name>Doe</last_name>
+            <contact_details>
+                <phone>0421613017</phone>
+                <email>john@gmail.com</email>
+            </contact_details>
+            <health_conditions>None</health_conditions>
+        </member>
+    </booked_members>
+</class_booking>

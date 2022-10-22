@@ -1,0 +1,63 @@
+@import "https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Raleway&display=swap";
+* {
+  letter-spacing: .2em;
+  font-family: Bebas Neue;
+}
+
+.heading-text {
+  color: red;
+  font-family: Times New Roman, Times, serif;
+  font-size: 32px;
+}
+
+.cruise-item {
+  gap: 10px;
+  padding: 10px;
+  display: grid;
+  box-shadow: 0 0 3px #000;
+}
+
+.cruise-list {
+  max-width: 400px;
+  flex-direction: column;
+  gap: 20px;
+  display: flex;
+}
+
+.slider {
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.image {
+  width: 1000px;
+  height: 600px;
+  border-radius: 10px;
+}
+
+.right-arrow {
+  color: #000;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+  font-size: 3rem;
+  position: absolute;
+  top: 50%;
+  right: 32px;
+}
+
+.left-arrow {
+  color: #000;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+  font-size: 3rem;
+  position: absolute;
+  top: 50%;
+  left: 32px;
+}
+
+/*# sourceMappingURL=index.8a606d94.css.map */
