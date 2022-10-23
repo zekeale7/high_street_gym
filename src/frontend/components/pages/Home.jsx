@@ -56,7 +56,7 @@ export const Home = () => {
                     fontFamily: 'Bebas Neue',
                     pt: '5rem'
                 }} 
-                >High Street Gym</Typography>
+                >High Street Gym!</Typography>
             </Container>
             <Container>
                 <Typography
