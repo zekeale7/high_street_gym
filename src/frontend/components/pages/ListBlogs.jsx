@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { styled } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Root = styled('div')(({ theme }) => ({
     width: '100%',
@@ -29,6 +30,12 @@ export const ListBlogs = () => {
     return (
         <Container>
             <h1>Blogs</h1>
+              <Button variant="contained" component={Link} to={"/EditClasses"} sx={{
+                fontSize: '13px',
+                width: '200px',
+                padding: '7px',
+                mb: '12px',
+            }}>Create Blog</Button>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
