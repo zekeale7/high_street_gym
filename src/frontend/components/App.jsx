@@ -3,6 +3,7 @@ import {Home} from "./pages/Home"
 import {CruiseList} from "./pages/CruiseList"
 import {Login} from "./pages/Login"
 import {NavBar} from "./NavBar"
+import {BasicSelect} from "./SelectComponenet"
 import {SignUp} from "./pages/Signup"
 import {ListClasses} from "./pages/ListClasses"
 import {Footer} from "./Footer"
@@ -17,6 +18,7 @@ import { AboutUs } from "./pages/AboutUs"
 import { Account } from "./pages/Account"
 import { CreateClasses } from "./pages/CreateClasses"
 import { CreateUsers } from "./pages/CreateUsers"
+import { CreateBlogs } from "./pages/CreateBlogs"
 import {ClassPage} from "./pages/ClassPage"
 import useLogin from "./../hooks/login_hooks";
 import { ListTrainers } from "./pages/ListTrainers"
@@ -57,6 +59,7 @@ export const App = () => {
                 <Route path="/ClassPage" element={<ClassPage />}/>
                 <Route path="/ListClassBooking" element={<ListClassBooking />}/>
                 <Route path="/CreateTrainer" element={<CreateTrainer />}/>
+                <Route path="/CreateBlogs" element={<CreateBlogs />}/>
                 <Route path="/AboutUs" element={<AboutUs />}/>
                 <Route path="/Account" element={<Account />}/>
                 <Route path="/CreateClasses" element={<CreateClasses />}/>

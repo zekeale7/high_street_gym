@@ -1,10 +1,20 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import { getLoginByUsername } from "../models/logins.js";
+import { getAllLogins, getLoginByUsername } from "../models/logins.js";
 import { getCustomerByID, getCustomerByLoginID } from "../models/customers.js";
 import { getTrainerByID, getTrainerByLoginID } from "../models/trainers.js";
 
 const loginController = express.Router();
+
+loginController.get("/all", (request, response) => {
+    getAllLogins()
+        .then(([results]) => {
+            response.status(200).json(results)
+        })
+        .catch(error => {
+            response.status(500).json(error)
+        })
+})
 
 loginController.get("/identity", async(req, res) => {
     let body = {

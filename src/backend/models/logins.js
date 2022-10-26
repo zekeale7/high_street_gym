@@ -1,5 +1,9 @@
 import { db_conn } from "../database.js";
 
+export function getAllLogins() {
+    return db_conn.query("SELECT * FROM logins");
+}
+
 export function getLoginByID(login_id) {
     return db_conn.query("SELECT * FROM logins WHERE login_id = ?", [login_id]);
 }

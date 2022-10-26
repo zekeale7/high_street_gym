@@ -30,7 +30,7 @@ export const ListBlogs = () => {
     return (
         <Container>
             <h1>Blogs</h1>
-              <Button variant="contained" component={Link} to={"/EditClasses"} sx={{
+              <Button variant="contained" component={Link} to={"/CreateBlogs"} sx={{
                 fontSize: '13px',
                 width: '200px',
                 padding: '7px',

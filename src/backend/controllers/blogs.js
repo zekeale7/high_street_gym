@@ -1,7 +1,31 @@
 import express from "express";
-import { getAllBlogs } from "../models/blogs.js";
+import { createBlog, getAllBlogs } from "../models/blogs.js";
 
 const blogController = express.Router();
+
+blogController.post("/create", async(req, res) => {
+    // TODO: Validation
+
+    const blog = req.body;
+
+    createBlog(
+            blog.blog_title,
+            blog.blog_content,
+            blog.blog_author,
+        )
+        .then(() => {
+            res.status(200).json({
+                status: 200,
+                message: " Blog Created",
+            });
+        })
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "failed to post blog: " + error,
+            });
+        });
+});
 
 blogController.get("/all", (req, res) => {
     getAllBlogs()
