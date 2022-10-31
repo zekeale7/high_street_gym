@@ -25,6 +25,7 @@ import { ListTrainers } from "./pages/ListTrainers"
 import { DeleteCustomer } from "./pages/DeleteCustomer"
 import { CreateTrainer} from "./pages/CreateTrainer"
 import { ListBlogs} from "./pages/ListBlogs"
+import { CreateClassBooking} from "./pages/CreateClassBooking"
 
 
 const theme = createTheme({
@@ -60,6 +61,7 @@ export const App = () => {
                 <Route path="/ListClassBooking" element={<ListClassBooking />}/>
                 <Route path="/CreateTrainer" element={<CreateTrainer />}/>
                 <Route path="/CreateBlogs" element={<CreateBlogs />}/>
+                <Route path="/CreateClassBooking" element={<CreateClassBooking />}/>
                 <Route path="/AboutUs" element={<AboutUs />}/>
                 <Route path="/Account" element={<Account />}/>
                 <Route path="/CreateClasses" element={<CreateClasses />}/>

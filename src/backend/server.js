@@ -95,6 +95,8 @@ import classController from "./controllers/classes.js";
 app.use("/classes", classController);
 import classBookingController from "./controllers/class_bookings.js";
 app.use("/class_bookings", classBookingController);
+import classBookingMembersController from "./controllers/class_bookings_members.js";
+app.use("/class_bookings_members", classBookingMembersController);
 
 
 // Start listing for requests

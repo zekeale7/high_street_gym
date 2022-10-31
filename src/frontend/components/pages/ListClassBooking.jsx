@@ -68,7 +68,7 @@ const BlogItem = ({ blog }) => {
             <span>
                 Level: {blog.level}
             </span>
-            <Button variant="contained" component={Link} to={"/EditClasses"} sx={{
+            <Button variant="contained" component={Link} to={"/CreateClassBooking"} sx={{
                 width: '300px',
             }}>Book Now</Button>
 
