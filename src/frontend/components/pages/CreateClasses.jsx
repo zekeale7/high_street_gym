@@ -31,7 +31,7 @@ export const CreateClasses = () => {
   const onSubmit = (data) => {
     setStatus("Creating...");
 
-    fetch("/api/trainers/sign-up", {
+    fetch("/api/classes/sign-up", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export const CreateClasses = () => {
         .then((res) => {
             if (res.status == 200) {
                 setStatus(res.message);
-                navigate("/Login");
+                navigate("/ListClasses");
             } else {
                 setStatus(res.message);
             }
@@ -89,13 +89,13 @@ export const CreateClasses = () => {
             <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
                 <TextField
-                  name="username"
+                  name="class_name"
                   required
                   fullWidth
-                  id="username"
-                  label="Username"
+                  id="class_name"
+                  label="Class Name"
                   autoFocus
-                  {...register("username")}
+                  {...register("class_name")}
                   
                 />
               </Grid>
@@ -103,23 +103,22 @@ export const CreateClasses = () => {
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  {...register("password")}
+                  name="duration_minutes"
+                  label="Duration Minutes"
+                  type="duration minutes"
+                  id="duration_minutes"
+                  {...register("duration_minutes")}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  name="first_name"
+                  name="level"
                   required
                   fullWidth
-                  id="first_name"
-                  label="First Name"
+                  id="level"
+                  label="level"
                   autoFocus
-                  {...register("first_name")}
+                  {...register("level")}
                   
                 />
               </Grid>
@@ -127,11 +126,10 @@ export const CreateClasses = () => {
                 <TextField
                   required
                   fullWidth
-                  id="last_name"
-                  label="Last Name"
-                  name="last_name"
-                  autoComplete="family-name"
-                  {...register("last_name")}
+                  id="trainer_id"
+                  label="Trainer ID"
+                  name="trainer_id"
+                  {...register("trainer_id")}
                 />
               </Grid>
               <Grid item xs={12}>

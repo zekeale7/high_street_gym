@@ -5,9 +5,7 @@ export function getAllCustomers() {
 }
 
 export function getCustomerByID(customer_id) {
-    return db_conn.query("SELECT * FROM customers WHERE customer_id = ?", [
-        customer_id,
-    ]);
+    return db_conn.query("SELECT * FROM customers WHERE customer_id = ?", [customer_id])
 }
 
 export function updateCustomerByID(
@@ -32,6 +30,10 @@ export function getCustomerByLoginID(login_id) {
     return db_conn.query("SELECT * FROM customers WHERE login_id = ?", [
         login_id,
     ]);
+}
+
+export function deleteCustomerByID(customer_id) {
+    return db_conn.query("DELETE FROM customers WHERE customer_id = ?", [customer_id])
 }
 
 export function createCustomer(

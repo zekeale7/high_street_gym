@@ -1,6 +1,6 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import { createCustomer, getAllCustomers, getCustomerByID, updateCustomerByID } from "../models/customers.js";
+import { createCustomer, deleteCustomerByID, getAllCustomers, getCustomerByID, updateCustomerByID } from "../models/customers.js";
 import { createLogin, deleteLoginByID } from "../models/logins.js";
 
 
@@ -98,9 +98,9 @@ customerController.post("/sign-up", async(req, res) => {
 });
 
 customerController.post("/delete", (request, response) => {
-    let login_id = request.body.login_id
+    let customer_id = request.body.customer_id
 
-    deleteLoginByID(login_id)
+    deleteCustomerByID(customer_id)
         .then(([results]) => {
             if (results.affectedRows > 0) {
                 response.status(200).json("user deleted")

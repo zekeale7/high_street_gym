@@ -34,6 +34,7 @@ export const ListCustomers = () => {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
+          <TableCell>Customer ID</TableCell>
             <TableCell>First Name</TableCell>
             <TableCell align="right">Last Name</TableCell>
             <TableCell align="right">Phone</TableCell>
@@ -47,14 +48,15 @@ export const ListCustomers = () => {
               key={item.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
+              <TableCell component="th" scope="row">{item.customer_id}</TableCell>
               <TableCell component="th" scope="row">{item.first_name}</TableCell>
               <TableCell align="right">{item.last_name}</TableCell>
               <TableCell align="right">{item.phone}</TableCell>
               <TableCell align="right">{item.email}</TableCell>
            
 
-              <Button variant="contained" component={Link} to={"/EditCustomers"}>Edit</Button>
-              <Button variant="contained" href="/DeleteCustomer">Delete</Button>
+              <Button variant="contained" component={Link} to={`/EditCustomers/${item.customer_id}`}>Edit</Button>
+              <Button variant="contained" component={Link} to={`/DeleteCustomers/${item.customer_id}`}>Delete</Button>
             </TableRow>
           ))}
         </TableBody>

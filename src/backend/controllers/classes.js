@@ -31,7 +31,7 @@ classController.get("/:id", (request, response) => {
         })
 })
 
-classController.post("/create", async(req, res) => {
+classController.post("/sign-up", async(req, res) => {
     // TODO: Validation
 
     const signUp = req.body;
@@ -40,6 +40,7 @@ classController.post("/create", async(req, res) => {
             signUp.class_name,
             signUp.duration_minutes,
             signUp.level,
+            signUp.trainer_id
         )
         .then(() => {
             res.status(200).json({

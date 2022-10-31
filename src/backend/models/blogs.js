@@ -8,18 +8,20 @@ export function createBlog(
     blog_title,
     blog_content,
     blog_author,
+    login_id
 ) {
     return db_conn.query(
         `
     INSERT INTO blogs
     (
-        blog_title, blog_content, blog_author
+        blog_title, blog_content, blog_author, login_id
     )
-    VALUES (?, ?, ?)
+    VALUES (?, ?, ?, ?)
     `, [
             blog_title,
             blog_content,
             blog_author,
+            login_id
         ]
     );
 }

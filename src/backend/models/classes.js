@@ -12,18 +12,20 @@ export function createClass(
     class_name,
     duration_minutes,
     level,
+    trainer_id
 ) {
     return db_conn.query(
         `
     INSERT INTO classes
     (
-        class_name, duration_minutes, level
+        class_name, duration_minutes, level, trainer_id
     )
-    VALUES (?, ?, ?)
+    VALUES (?, ?, ?, ?)
     `, [
             class_name,
             duration_minutes,
             level,
+            trainer_id
         ]
     );
 }

@@ -269,6 +269,9 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
                <Button  onClick={handleCloseNavMenu}>
                   <Link style={{textDecoration: "none", color: "black"}} to={"/Account"}>Account</Link>
                 </Button>
+                <Button onClick={handleCloseNavMenu}>
+                      <Link style={{textDecoration: "none", color: "black"}} to="/ListBlogs">Blogs</Link>   
+                  </Button>
                   <Button onClick={handleCloseNavMenu}>
                       <Link style={{textDecoration: "none", color: "black"}} to="/ClassPage">Book Class</Link>   
                   </Button>  
@@ -290,7 +293,9 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
                 <Button onClick={handleCloseNavMenu}> 
                   <Link style={{textDecoration: "none", color: "black"}} to="/ListCustomers">Customers</Link>    
                 </Button>
-
+                <Button onClick={handleCloseNavMenu}>
+                      <Link style={{textDecoration: "none", color: "black"}} to="/ListBlogs">Blogs</Link>   
+                  </Button>
                 <Button onClick={handleCloseNavMenu}>              
                   <Link style={{textDecoration: "none", color: "black"}} to="/ListTrainers">Trainers</Link>
                 </Button>
@@ -322,9 +327,6 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
                   <Button onClick={handleCloseNavMenu}>
                       <Link style={{textDecoration: "none", color: "black"}} to="/ClassPage">Book Class</Link>   
                   </Button>  
-                  <Button onClick={handleCloseNavMenu}>
-                      <Link style={{textDecoration: "none", color: "black"}} to="/ListBlogs">Blogs</Link>   
-                  </Button>
                   <Button onClick={handleCloseNavMenu}>
                       <Link style={{textDecoration: "none", color: "black"}} to="/Signup">Signup</Link>   
                   </Button>

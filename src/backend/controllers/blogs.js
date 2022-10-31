@@ -12,6 +12,7 @@ blogController.post("/create", async(req, res) => {
             blog.blog_title,
             blog.blog_content,
             blog.blog_author,
+            blog.login_id,
         )
         .then(() => {
             res.status(200).json({
