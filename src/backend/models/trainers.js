@@ -32,3 +32,17 @@ export function createTrainer(
         ]
     );
 }
+
+// Update
+export function updateTrainerById(trainer_id, first_name, last_name, login_id) {
+    return db_conn.query(
+        "UPDATE trainers " +
+        "SET first_name = ?, last_name = ?, login_id = ? " +
+        "WHERE trainer_id = ?", [first_name, last_name, login_id, trainer_id]
+    )
+}
+
+// Delete
+export function deleteTrainerById(trainer_id) {
+    return db_conn.query("DELETE FROM trainers WHERE trainer_id = ?", [trainer_id])
+}

@@ -12,6 +12,7 @@ import { CssBaseline } from "@mui/material"
 import "../style.css"
 import { EditClasses } from "./pages/EditClasses"
 import { EditCustomers } from "./pages/EditCustomers"
+import { EditTrainers } from "./pages/EditTrainers"
 import { ListCustomers } from "./pages/ListCustomers"
 import { ListClassBooking } from "./pages/ListClassBooking"
 import { AboutUs } from "./pages/AboutUs"
@@ -23,6 +24,7 @@ import {ClassPage} from "./pages/ClassPage"
 import useLogin from "./../hooks/login_hooks";
 import { ListTrainers } from "./pages/ListTrainers"
 import { DeleteCustomer } from "./pages/DeleteCustomer"
+import { DeleteTrainer } from "./pages/DeleteTrainer"
 import { CreateTrainer} from "./pages/CreateTrainer"
 import { ListBlogs} from "./pages/ListBlogs"
 import { CreateClassBooking} from "./pages/CreateClassBooking"
@@ -75,10 +77,12 @@ export const App = () => {
                 <Route path="/CreateUsers" element={<CreateUsers />}/>
                 <Route path="/EditClasses" element={<EditClasses />}/>
                 <Route path="/EditCustomers" element={<EditCustomers />}/>
+                <Route path="/EditTrainers/:id" element={<EditTrainers />} />
                 <Route path="/ListCustomers" element={<ListCustomers />}/>
                 <Route path="/ListTrainers" element={<ListTrainers />}/>
                 <Route path="/ListBlogs" element={<ListBlogs />}/>
                 <Route path="/DeleteCustomer" element={<DeleteCustomer />}/>
+                <Route path="/DeleteTrainer/:id" element={<DeleteTrainer />}/>
                 <Route path="/Login" element={<Login login={login} />}/>
               
             </Routes>

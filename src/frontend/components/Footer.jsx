@@ -23,9 +23,13 @@ function Copyright() {
 
 export function Footer() {
   return (
+    <Box sx={{display: "flex"}}>
     <Box sx={{ 
       bgcolor: 'lightgrey', 
       p: 6, 
+      bottom: 0,
+      width: "100%",
+     
       }}  
       component="footer">
     <Typography variant="h6" align="center" sx={{
@@ -46,6 +50,6 @@ export function Footer() {
     </Typography>
     <Copyright />
   </Box>
-  
+  </Box>
   );
 }
