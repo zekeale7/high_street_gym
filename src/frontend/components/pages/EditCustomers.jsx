@@ -17,17 +17,30 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "../../style.css"
+import { useEffect } from 'react';
 
 const theme = createTheme();
 
 export const EditCustomers = () => {
 
-  let customer_id = new URLSearchParams(window.location.search).get("customer_id")
-
   const { register, handleSubmit } = useForm();
   const [status, setStatus] = useState("");
-
   const navigate = useNavigate();
+
+  const [customerData, setCustomerData] = useState([]);
+
+  const getCustomerID = () => {
+      fetch("/api/customers/id")
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        setCustomerData(json);
+      })
+    }
+  
+    useEffect(() => {
+      getCustomerID();
+    }, [])
 
   const onSubmit = (data) => {
     setStatus("Updating...");
@@ -55,7 +68,7 @@ export const EditCustomers = () => {
       };
 
   return (
- 
+
     <ThemeProvider theme={theme}>
     <Box sx={{
           backgroundImage: (`url(${image})`),
@@ -79,17 +92,30 @@ export const EditCustomers = () => {
           }}>
             Edit User
           </Typography>
+
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3, width: "500px" }} >
             <Grid container spacing={4}>
             <Grid item xs={12}>
                 <TextField
-                  name="username"
                   required
                   fullWidth
-                  id="username"
-                  label="Username"
+                  readOnly
+                  name="customer_id"
+                  label={customerData.customer_id}
+                  type="customer_id"
+                  id="customer_id"
+                  {...(customerData.customer_id)}
+                />
+              </Grid>
+            <Grid item xs={12}>
+                <TextField
+                  name="first_name"
+                  required
+                  fullWidth
+                  id="first_name"
+                  label="first_name"
                   autoFocus
-                  {...register("username")}
+                  {...(customerData.first_name)}
                   
                 />
               </Grid>
@@ -97,15 +123,14 @@ export const EditCustomers = () => {
                 <TextField
                   required
                   fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  {...register("password")}
+                  name="last_name"
+                  label="last_name"
+                  type="last_name"
+                  id="last_name"
+                  {...(customerData.last_name)}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
               <TextField
                   name="first_name"
                   required
@@ -219,7 +244,7 @@ export const EditCustomers = () => {
                   id="postcode"
                   {...register("postcode")}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}

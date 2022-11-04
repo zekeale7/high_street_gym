@@ -97,15 +97,15 @@ customerController.post("/sign-up", async(req, res) => {
         });
 });
 
-customerController.post("/delete", (request, response) => {
-    let customer_id = request.body.customer_id
+customerController.delete("/delete/:id/", (request, response) => {
+    let customer_id = request.params.customer_id
 
     deleteCustomerByID(customer_id)
         .then(([results]) => {
             if (results.affectedRows > 0) {
-                response.status(200).json("user deleted")
+                response.status(200).json("customer deleted")
             } else {
-                response.status(404).json("user not found")
+                response.status(404).json("customer not found")
             }
         })
         .catch(error => {

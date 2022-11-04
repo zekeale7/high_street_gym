@@ -11,9 +11,27 @@ import Paper from '@mui/material/Paper';
 import { Box, Stack } from '@mui/system';
 import { Link } from 'react-router-dom';
 
-export const ListCustomers = () => {
+export const ListCustomers = ({customer}) => {
   
   const [data, setData] = useState([]);
+
+  const deleteCustomer = (customer_id) => {
+    fetch("api/customers/delete/" + customer_id, {
+      method: "DELETE",
+    })
+    .then((res) => res.json())
+    .then((response) => {
+      if (response.status == 200){
+        alert(response),
+        window.location.href = "/ListCustomers"
+        setData(
+          data.filter(
+            (customer) => customer.customer_id != customer_id,
+          )
+        )
+      }
+    })
+  }
 
   const getCustomerList = () => {
     fetch('/api/customers/all')
@@ -55,8 +73,8 @@ export const ListCustomers = () => {
               <TableCell align="right">{item.email}</TableCell>
            
 
-              <Button variant="contained" component={Link} to={`/EditCustomers/${item.customer_id}`}>Edit</Button>
-              <Button variant="contained" component={Link} to={`/DeleteCustomers/${item.customer_id}`}>Delete</Button>
+              <Button variant="contained" onClick={() => deleteCustomer(item.customer_id)}>Delete</Button>
+     
             </TableRow>
           ))}
         </TableBody>
