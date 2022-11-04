@@ -1,74 +1,37 @@
-import { Button, Typography } from '@mui/material';
-import { Box, Container } from '@mui/system';
-import * as React from 'react';
-import "../../style.css"
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from "react"
+import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom"
 
 
-export function DeleteCustomer (){
+export const DeleteCustomer = () => {
+    const navigate = useNavigate()
 
-    const [status, setStatus] = useState("");
+    // Booking id from the url bar
+    const { id } = useParams()
 
-    const { handleSubmit } = useForm();
-  
-    const navigate = useNavigate();
-
-    const [customerData, setCustomerData] = useState([]);
-
-    const getCustomerList = () => {
-        fetch('/api/customers/all')
-        .then((response) => response.json())
-        .then((json) => {
-          console.log(json);
-          setCustomerData(json);
+    // Handle delete button click
+    const onClickDeleteButton = () => {
+        fetch("/api/customers/delete/" + id, {
+            method: "DELETE"
         })
-      }
-    
-      useEffect(() => {
-        getCustomerList();
-      }, [])
-  
-    const onSubmit = () => {
-
-    setStatus("Creating...");
-
-    fetch("/api/customers/delete", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            },
-            body: JSON.stringify(),
-        })
-            .then((res) => res.json())
-            .then((res) => {
+            .then(res => res.json())
+            .then(res => {
                 if (res.status == 200) {
-                    setStatus(res.message);
-                    navigate("/Login");
+                    alert("Customer deleted")
+                    navigate("/ListCustomers")
                 } else {
-                    setStatus(res.message);
+                    alert("Failed to delete Customer")
+                    navigate("/ListCustomers")
                 }
             })
-            .catch((error) => {
-                setStatus("failed to fetch: " + error);
-            });
- 
-  return(
-    <Box component="form">
-        <Container>
-            <Typography
-              variant="h1"
-              sx={{
-                  color: "black",
-                  textAlign: "center",
-                  fontFamily: 'Bebas Neue',
-                  pt: '5rem'
-              }} 
-              >Delete Customer</Typography>
-              <Button variant="outlined"  >Delete</Button>
-          <Button variant="outlined" href="/ListCustomers">Back</Button>
-        </Container>
-    </Box>
-  )}}
-    
+            .catch(error => {
+                alert("Request error")
+                console.log(error)
+            })
+    }
+
+    return <>
+        <h3>Confirm delete?</h3>
+        <span>Are you sure you want to delete Customer with id {id}!!!!!!</span>
+        <input type="button" value="Delete" onClick={onClickDeleteButton} />
+    </>
+}

@@ -8,30 +8,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Box, Stack } from '@mui/system';
+import { Box, Container, Stack } from '@mui/system';
 import { Link } from 'react-router-dom';
 
 export const ListCustomers = ({customer}) => {
   
   const [data, setData] = useState([]);
 
-  const deleteCustomer = (customer_id) => {
-    fetch("api/customers/delete/" + customer_id, {
-      method: "DELETE",
-    })
-    .then((res) => res.json())
-    .then((response) => {
-      if (response.status == 200){
-        alert(response),
-        window.location.href = "/ListCustomers"
-        setData(
-          data.filter(
-            (customer) => customer.customer_id != customer_id,
-          )
-        )
-      }
-    })
-  }
 
   const getCustomerList = () => {
     fetch('/api/customers/all')
@@ -47,9 +30,21 @@ export const ListCustomers = ({customer}) => {
   }, [])
 
   return (
-    <div> 
-      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <Box  sx={{backgroundColor: "lightblue"}}>
+    <Container>
+              <Typography
+              variant="h1"
+              sx={{
+                  color: "white",
+                  textAlign: "center",
+                  fontFamily: 'Bebas Neue',
+                  pt: '5rem'
+              }} 
+              >Customers</Typography>
+          </Container>
+      <Container sx={{pt:"25px", pb: "25px"}}>
+      <TableContainer component={Paper} sx={{pb: "10%"}}>
+      <Table sx={{ minWidth: 650, width: "100%"}} aria-label="simple table">
         <TableHead>
           <TableRow>
           <TableCell>Customer ID</TableCell>
@@ -57,6 +52,7 @@ export const ListCustomers = ({customer}) => {
             <TableCell align="right">Last Name</TableCell>
             <TableCell align="right">Phone</TableCell>
             <TableCell align="right">Email</TableCell>
+            <TableCell align="right"></TableCell>
        
           </TableRow>
         </TableHead>
@@ -71,15 +67,17 @@ export const ListCustomers = ({customer}) => {
               <TableCell align="right">{item.last_name}</TableCell>
               <TableCell align="right">{item.phone}</TableCell>
               <TableCell align="right">{item.email}</TableCell>
-           
-
-              <Button variant="contained" onClick={() => deleteCustomer(item.customer_id)}>Delete</Button>
-     
+              
+              <TableCell align="right">
+              <Button variant="contained" sx={{mr: "15px"}}  component={Link} to={"/EditCustomers/" + item.customer_id}>Edit</Button>
+              <Button variant="contained" component={Link} to={"/DeleteCustomer/" + item.customer_id}>Delete</Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-    </div>
+    </Container>
+    </Box>
   );
 }

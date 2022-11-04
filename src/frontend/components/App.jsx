@@ -18,7 +18,6 @@ import { ListClassBooking } from "./pages/ListClassBooking"
 import { AboutUs } from "./pages/AboutUs"
 import { Account } from "./pages/Account"
 import { CreateClasses } from "./pages/CreateClasses"
-import { CreateUsers } from "./pages/CreateUsers"
 import { CreateBlogs } from "./pages/CreateBlogs"
 import {ClassPage} from "./pages/ClassPage"
 import useLogin from "./../hooks/login_hooks";
@@ -74,14 +73,13 @@ export const App = () => {
                 <Route path="/AboutUs" element={<AboutUs />}/>
                 <Route path="/Account" element={<Account />}/>
                 <Route path="/CreateClasses" element={<CreateClasses />}/>
-                <Route path="/CreateUsers" element={<CreateUsers />}/>
                 <Route path="/EditClasses" element={<EditClasses />}/>
-                <Route path="/EditCustomers" element={<EditCustomers />}/>
+                <Route path="/EditCustomers/:id" element={<EditCustomers />}/>
                 <Route path="/EditTrainers/:id" element={<EditTrainers />} />
                 <Route path="/ListCustomers" element={<ListCustomers />}/>
                 <Route path="/ListTrainers" element={<ListTrainers />}/>
                 <Route path="/ListBlogs" element={<ListBlogs />}/>
-                <Route path="/DeleteCustomer" element={<DeleteCustomer />}/>
+                <Route path="/DeleteCustomer/:id" element={<DeleteCustomer />}/>
                 <Route path="/DeleteTrainer/:id" element={<DeleteTrainer />}/>
                 <Route path="/Login" element={<Login login={login} />}/>
               

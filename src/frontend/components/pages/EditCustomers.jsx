@@ -1,277 +1,144 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
+import { useEffect, useState } from "react"
+import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom"
+import { Button, Card, CardContent, CssBaseline, Grid, TextField } from "@mui/material"
+import { Box, Container } from "@mui/system"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import image from '/src/images/pexels-scott-webb-3255761.jpg'
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import "../../style.css"
-import { useEffect } from 'react';
+import { useEffect, useState } from "react"
 
 const theme = createTheme();
 
 export const EditCustomers = () => {
+    const navigate = useNavigate()
 
-  const { register, handleSubmit } = useForm();
-  const [status, setStatus] = useState("");
-  const navigate = useNavigate();
+    // Booking id from the url bar
+    const { id } = useParams()
 
-  const [customerData, setCustomerData] = useState([]);
+    // Form input state
+    const [customerFirstName, setCustomerFirstName] = useState("john Doe")
+    const [customerLastName, setCustomerLastName] = useState("john Doe")
+    const [customerPhone, setCustomerPhone] = useState("######")
+    const [customerEmail, setCustomerEmail] = useState("john@gmail.com")
+    const [customerCountry, setCustomerCountry] = useState("QLD")
+    const [customerState, setCustomerState] = useState("QLD")
+    const [customerCity, setCustomerCity] = useState("Brisbane")
+    const [customerStreet, setCustomerStreet] = useState("john St")
+    const [customerPostcode, setCustomerPostcode] = useState("0000")
 
-  const getCustomerID = () => {
-      fetch("/api/customers/id")
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json);
-        setCustomerData(json);
-      })
-    }
-  
+    // Load the existing booking data for this record
     useEffect(() => {
-      getCustomerID();
+        fetch("/api/customers/byid/" + id)
+            .then(res => res.json())
+            .then(res => {
+                if (res.status == 200) {
+                    const customer = res.customer
+                    setCustomerFirstName(customer.first_name)
+                    setCustomerLastName(customer.last_name)
+                    setCustomerPhone(customer.phone)
+                    setCustomerEmail(customer.email)
+                    setCustomerCountry(customer.country)
+                    setCustomerState(customer.state)
+                    setCustomerCity(customer.city)
+                    setCustomerStreet(customer.street)
+                    setCustomerPostcode(customer.postcode)
+                    
+
+                } else {
+                    console.log("Request error")
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }, [])
 
-  const onSubmit = (data) => {
-    setStatus("Updating...");
+    // Handle the saving of updated data
+    const onSubmitUpdateTrainer = (e) => {
+        e.preventDefault()
 
-    fetch("/api/customers/update", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    })
-        .then((res) => res.json())
-        .then((res) => {
-            if (res.status == 200) {
-                setStatus(res.message);
-                navigate("/ListCustomers");
-            } else {
-                setStatus(res.message);
-            }
+        const customer = {
+            customer_id: id,
+            first_name: customerFirstName,
+            last_name: customerLastName,
+            phone: customerPhone,
+            email: customerEmail,
+            country: customerCountry,
+            state: customerState,
+            city: customerCity,
+            street: customerStreet,
+            postcode: customerPostcode
+        }
+
+        fetch("/api/customers/update", {
+            method: "PATCH",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify(customer)
         })
-        .catch((error) => {
-            setStatus("failed to Update Customers: " + error);
-        });
+            .then(res => res.json())
+            .then(res => {
+                alert(res.message)
+                navigate("/ListCustomers")
+                // You would probably want to redirect (navigate) to another page here.
+            })
+            .catch(error => {
+                alert(error)
+            })
+    }
 
-      };
-
-  return (
-
-    <ThemeProvider theme={theme}>
-    <Box sx={{
-          backgroundImage: (`url(${image})`),
-          backgroundSize: 'cover',
-          backgroundPosition: 'center', 
-    }}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" sx={{
-              fontFamily: 'Bebas Neue',
-          }}>
-            Edit User
-          </Typography>
-
-          <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3, width: "500px" }} >
-            <Grid container spacing={4}>
-            <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  readOnly
-                  name="customer_id"
-                  label={customerData.customer_id}
-                  type="customer_id"
-                  id="customer_id"
-                  {...(customerData.customer_id)}
-                />
-              </Grid>
-            <Grid item xs={12}>
-                <TextField
-                  name="first_name"
-                  required
-                  fullWidth
-                  id="first_name"
-                  label="first_name"
-                  autoFocus
-                  {...(customerData.first_name)}
-                  
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="last_name"
-                  label="last_name"
-                  type="last_name"
-                  id="last_name"
-                  {...(customerData.last_name)}
-                />
-              </Grid>
-              {/* <Grid item xs={12} sm={6}>
-              <TextField
-                  name="first_name"
-                  required
-                  fullWidth
-                  id="first_name"
-                  label="First Name"
-                  autoFocus
-                  {...register("first_name")}
-                  
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                  {...register("last_name")}
-                />
-              </Grid>
-               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="phone"
-                  label="Phone"
-                  type="phone"
-                  id="phone"
-                  
-                  {...register("phone")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  {...register("email")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="payment_method"
-                  label="Payment Method"
-                  type="payment_method"
-                  id="payment_method"
-          
-                  {...register("payment_method")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="country"
-                  label="country"
-                  type="country"
-                  id="country"
-                  
-                  {...register("country")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="state"
-                  label="State"
-                  type="state"
-                  id="state"
-                  autoComplete="state"
-                  {...register("state")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="city"
-                  label="City"
-                  type="city"
-                  id="city"
-                  {...register("city")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="street"
-                  label="Street"
-                  type="street"
-                  id="street"
-                  {...register("street")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="postcode"
-                  label="Postcode"
-                  type="postcode"
-                  id="postcode"
-                  {...register("postcode")}
-                />
-              </Grid> */}
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
+    return(
+    <ThemeProvider theme={theme} >
+    <Box sx={{backgroundColor: "lightBlue", pb: "20%" }}>
+    <Container component="main" maxWidth="xs" >
+    <CssBaseline />
+    <Box component="form" onSubmit={onSubmitUpdateTrainer} sx={{ pt: 3, pb: 2 }}>
+        <Card>
+            <CardContent>
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth label="First Name:" type="text" value={customerFirstName} onChange={(e) => setCustomerFirstName(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth  label="Last Name:" type="text" value={customerLastName} onChange={(e) => setCustomerLastName(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth label="Phone:" type="number" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth  label="Email:" type="email" value={customerEmail} onChange={(e) => setCustomerEmail(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth label="Country:" type="text" value={customerCountry} onChange={(e) => setCustomerCountry(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth  label="State:" type="text" value={customerState} onChange={(e) => setCustomerState(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth label="Street:" type="text" value={customerStreet} onChange={(e) => setCustomerStreet(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth  label="City:" type="text" value={customerCity} onChange={(e) => setCustomerCity(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth label="Postcode:" type="number" value={customerPostcode} onChange={(e) => setCustomerPostcode(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                    <TextField fullWidth  label="Last Name:" type="text" value={customerLastName} onChange={(e) => setCustomerLastName(e.target.value)} />
+                </Grid>
+                <Grid item xs={12} sm={12}>
+                <Button
+                    fullWidth
+                    type="submit"
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, }}
+                    >Update Trainer</Button>
+                </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <span>{status}</span>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-      </Box>
+        </CardContent>
+        </Card>
+    </Box>
+    </Container>
+    </Box>
     </ThemeProvider>
-  );
-}
+)}
+

@@ -1,6 +1,6 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import { createCustomer, deleteCustomerByID, getAllCustomers, getCustomerByID, updateCustomerByID } from "../models/customers.js";
+import { createCustomer, deleteCustomerByID, getAllCustomers, getCustomerByID, updateCustomerById } from "../models/customers.js";
 import { createLogin, deleteLoginByID } from "../models/logins.js";
 
 
@@ -16,10 +16,13 @@ customerController.get("/all", (request, response) => {
         })
 })
 
-customerController.post("/update", (request, response) => {
-    let customer = request.body
+// PATCH /update - Update an existing booking by ID with all fields
+customerController.patch("/update", (req, res) => {
+    // TODO: Validate incoming date here
 
-    updateCustomerByID(
+    const customer = req.body
+
+    updateCustomerById(
             customer.customer_id,
             customer.first_name,
             customer.last_name,
@@ -27,36 +30,59 @@ customerController.post("/update", (request, response) => {
             customer.email,
             customer.country,
             customer.state,
+            customer.street,
             customer.city,
             customer.street,
-            customer.postcode
         )
-        .then(([results]) => {
-            if (results.affectedRows > 0) {
-                response.status(200).json("Customer updated")
-            } else {
-                response.status(404).json("Customer not found")
-            }
+        .then(([result]) => {
+            res.status(200).json({
+                status: 200,
+                message: "Customer updated"
+            })
         })
-        .catch(error => {
-            console.log("Failed to update customer - " + error)
-            response.status(500).json("failed to update customer")
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Failed to update customer",
+                error: error,
+            })
         })
 })
 
-customerController.get("/:id", (request, response) => {
-    getCustomerByID(request.params.id)
-        .then(([results]) => {
-            if (results.length > 0) {
-                response.status(200).json(results[0])
-            } else {
-                response.status(404).json("Customer not found")
-            }
+// GET /byid/:id - Get a single booking by ID
+customerController.get("/byid/:id", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // ie. bookings/byid/24 <-- do we have this.
+    if (req.params.id) {
+        getCustomerByID(req.params.id)
+            .then(([results]) => {
+                // Check that we found a booking
+                if (results.length > 0) {
+                    const first_customer = results[0]
+                    res.status(200).json({
+                        status: 200,
+                        customer: first_customer
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Customer not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Query error",
+                    error: error,
+                })
+            })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing customer ID from request"
         })
-        .catch(error => {
-            console.log("failed to get customer by id - " + error)
-            response.status(500).json("failed to get customer by id")
-        })
+    }
 })
 
 customerController.post("/sign-up", async(req, res) => {
@@ -97,21 +123,33 @@ customerController.post("/sign-up", async(req, res) => {
         });
 });
 
-customerController.delete("/delete/:id/", (request, response) => {
-    let customer_id = request.params.customer_id
-
-    deleteCustomerByID(customer_id)
-        .then(([results]) => {
-            if (results.affectedRows > 0) {
-                response.status(200).json("customer deleted")
-            } else {
-                response.status(404).json("customer not found")
-            }
-        })
-        .catch(error => {
-            console.log("Failed to delete user - " + error)
-            response.status(500).json("failed to delete user")
-        })
+// DELETE /delete/:id - Delete an existing booking by ID
+customerController.delete("/delete/:id", (req, res) => {
+    if (req.params.id) {
+        deleteCustomerByID(req.params.id)
+            .then(([result]) => {
+                if (result.affectedRows > 0) {
+                    res.status(200).json({
+                        status: 200,
+                        message: "Customer deleted"
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Customer not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Failed to delete Customer",
+                    error: error,
+                })
+            })
+    }
 })
+
+
 
 export default customerController;

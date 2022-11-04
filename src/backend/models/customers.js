@@ -8,7 +8,7 @@ export function getCustomerByID(customer_id) {
     return db_conn.query("SELECT * FROM customers WHERE customer_id = ?", [customer_id])
 }
 
-export function updateCustomerByID(
+export function updateCustomerById(
     customer_id,
     first_name,
     last_name,
