@@ -27,10 +27,8 @@ import { DeleteTrainer } from "./pages/DeleteTrainer"
 import { CreateTrainer} from "./pages/CreateTrainer"
 import { ListBlogs} from "./pages/ListBlogs"
 import { CreateClassBooking} from "./pages/CreateClassBooking"
-import { BlogsDemo} from "./pages/BlogsDemo"
-import { CreateBookingFormDemo} from "./pages/CreateBookingFormDemo"
-import { EditBookingFormDemo} from "./pages/EditBookingFormDemo"
-import { DeleteBookingDemo} from "./pages/DeleteBookingDemo"
+
+
 
 const theme = createTheme({
     palette: {
@@ -57,11 +55,7 @@ export const App = () => {
             </header>
           
             <Routes>
-                <Route path="/DeleteBookingDemo/:id" element={<DeleteBookingDemo />} />
-                <Route path="/EditBookingFormDemo/:id" element={<EditBookingFormDemo />} />
-                <Route path="/CreateBookingFormDemo" element={<CreateBookingFormDemo />} />
                 <Route path="/" element={<Home />} />
-                <Route path="/BlogsDemo" element={<BlogsDemo />} />
                 <Route path="/CruiseList" element={<CruiseList />}/>
                 <Route path="/Signup" element={<SignUp />} />
                 <Route path="/ListClasses" element={<ListClasses />}/>

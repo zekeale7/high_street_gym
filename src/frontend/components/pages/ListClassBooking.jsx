@@ -59,9 +59,7 @@ const BlogItem = ({ blog }) => {
             <span>
                 When: {blog.booking_date ?? "Not specified"}
             </span>
-            <span>
-                Trainer: {blog.first_name} {blog.last_name}
-            </span>
+ 
             <span>
                 Duration: {blog.duration_minutes}
             </span>

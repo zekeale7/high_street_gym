@@ -97,10 +97,7 @@ import classBookingController from "./controllers/class_bookings.js";
 app.use("/class_bookings", classBookingController);
 import classBookingMembersController from "./controllers/class_bookings_members.js";
 app.use("/class_bookings_members", classBookingMembersController);
-import activityController from "./controllers/activities_demo.js";
-app.use("/activities_demo", activityController);
-import bookingController from "./controllers/bookings_demo.js";
-app.use("/bookings_demo", bookingController);
+
 
 // Start listing for requests
 app.listen(port, () => {
