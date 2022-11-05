@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react"
 import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom"
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+import { Button, Typography } from "@mui/material";
+import { Container } from "@mui/system";
+
 
 
 export const DeleteCustomer = () => {
@@ -30,8 +35,20 @@ export const DeleteCustomer = () => {
     }
 
     return <>
-        <h3>Confirm delete?</h3>
-        <span>Are you sure you want to delete Customer with id {id}!!!!!!</span>
-        <input type="button" value="Delete" onClick={onClickDeleteButton} />
+    <Container sx={{width: "400px", display: "flex", flexDirection: "column", pb: "150px"}}>
+        <Typography
+              variant="h3"
+              sx={{
+                  color: "Black",
+                  textAlign: "center",
+                  fontFamily: 'Bebas Neue',
+                  pt: '5rem'
+              }} 
+              >Confirm Delete?</Typography>
+        <Alert variant="outlined" severity="warning">
+        Are you sure you want to delete Customer with id {id}
+      </Alert>
+      <Button variant="contained" sx={{ mt:"15px", mb: "15px"}} onClick={onClickDeleteButton}>Delete</Button>
+    </Container>
     </>
 }

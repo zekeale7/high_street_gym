@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom"
-import { Button, Card, CardContent, CssBaseline, Grid, TextField } from "@mui/material"
+import { Button, Card, CardContent, CssBaseline, Grid, TextField, Typography } from "@mui/material"
 import { Box, Container } from "@mui/system"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from "react"
@@ -89,9 +89,18 @@ export const EditCustomers = () => {
     return(
     <ThemeProvider theme={theme} >
     <Box sx={{backgroundColor: "lightBlue", pb: "20%" }}>
+    <Typography
+              variant="h3"
+              sx={{
+                  color: "white",
+                  textAlign: "center",
+                  fontFamily: 'Bebas Neue',
+                  pt: '5rem'
+              }} 
+              >Edit Customer</Typography>
     <Container component="main" maxWidth="xs" >
     <CssBaseline />
-    <Box component="form" onSubmit={onSubmitUpdateTrainer} sx={{ pt: 3, pb: 2 }}>
+    <Box component="form" onSubmit={onSubmitUpdateTrainer} sx={{ pt: 3, pb: 1 }}>
         <Card>
             <CardContent>
             <Grid container spacing={2}>
