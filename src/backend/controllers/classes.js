@@ -1,11 +1,9 @@
-import express from "express";
-import bcrypt from "bcryptjs";
-import { createClass, getAllClasses, getClassByID } from "../models/classes.js";
+import express from "express"
+import { getClassById, getAllClasses } from "../models/classes.js"
 
+const classController = express.Router()
 
-
-const classController = express.Router();
-
+// GET /all - Returns an object with status code and array of activities
 classController.get("/all", (request, response) => {
     getAllClasses()
         .then(([results]) => {
@@ -16,44 +14,39 @@ classController.get("/all", (request, response) => {
         })
 })
 
-classController.get("/:id", (request, response) => {
-    getClassByID(request.params.id)
-        .then(([results]) => {
-            if (results.length > 0) {
-                response.status(200).json(results[0])
-            } else {
-                response.status(404).json("Class not found")
-            }
+
+// GET /by_id/:id - Returns a status and a single activity object
+classController.get("/byid/:id", (req, res) => {
+    if (req.params.id) {
+        getClassById(req.params.id)
+            .then(([results]) => {
+                // Check that we found an activity
+                if (results.length > 0) {
+                    const first_class = results[0]
+                    res.status(200).json({
+                        status: 200,
+                        classes: first_class
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Class not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Query error",
+                    error: error,
+                })
+            })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing activity ID from request"
         })
-        .catch(error => {
-            console.log("failed to get class by id - " + error)
-            response.status(500).json("failed to get class by id")
-        })
+    }
 })
-
-classController.post("/sign-up", async(req, res) => {
-    // TODO: Validation
-
-    const signUp = req.body;
-
-    createClass(
-            signUp.class_name,
-            signUp.duration_minutes,
-            signUp.level,
-            signUp.trainer_id
-        )
-        .then(() => {
-            res.status(200).json({
-                status: 200,
-                message: " Class Created",
-            });
-        })
-        .catch((error) => {
-            res.status(500).json({
-                status: 500,
-                message: "failed to create class: " + error,
-            });
-        });
-});
 
 export default classController;

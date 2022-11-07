@@ -11,8 +11,10 @@ import {createTheme, ThemeProvider} from '@mui/material'
 import { CssBaseline } from "@mui/material"
 import "../style.css"
 import { EditClasses } from "./pages/EditClasses"
+import { EditBlogs } from "./pages/EditBlogs"
 import { EditCustomers } from "./pages/EditCustomers"
 import { EditTrainers } from "./pages/EditTrainers"
+import { EditClassBookings } from "./pages/EditClassBookings"
 import { ListCustomers } from "./pages/ListCustomers"
 import { ListClassBooking } from "./pages/ListClassBooking"
 import { AboutUs } from "./pages/AboutUs"
@@ -24,9 +26,11 @@ import useLogin from "./../hooks/login_hooks";
 import { ListTrainers } from "./pages/ListTrainers"
 import { DeleteCustomer } from "./pages/DeleteCustomer"
 import { DeleteTrainer } from "./pages/DeleteTrainer"
+import { DeleteBlogs } from "./pages/DeleteBlogs"
 import { CreateTrainer} from "./pages/CreateTrainer"
 import { ListBlogs} from "./pages/ListBlogs"
 import { CreateClassBooking} from "./pages/CreateClassBooking"
+import { DeleteClassBooking } from "./pages/DeleteClassBooking"
 
 
 
@@ -65,16 +69,20 @@ export const App = () => {
                 <Route path="/CreateBlogs" element={<CreateBlogs />}/>
                 <Route path="/CreateClassBooking" element={<CreateClassBooking />}/>
                 <Route path="/AboutUs" element={<AboutUs />}/>
-                <Route path="/Account" element={<Account />}/>
+                <Route path="/Account/:id" element={<Account />}/>
                 <Route path="/CreateClasses" element={<CreateClasses />}/>
                 <Route path="/EditClasses" element={<EditClasses />}/>
+                <Route path="/EditClassBookings/:id" element={<EditClassBookings />}/>
                 <Route path="/EditCustomers/:id" element={<EditCustomers />}/>
                 <Route path="/EditTrainers/:id" element={<EditTrainers />} />
+                <Route path="/EditBlogs/:id" element={<EditBlogs />} />
                 <Route path="/ListCustomers" element={<ListCustomers />}/>
                 <Route path="/ListTrainers" element={<ListTrainers />}/>
                 <Route path="/ListBlogs" element={<ListBlogs />}/>
+                <Route path="/DeleteClassBooking/:id" element={<DeleteClassBooking />}/>
                 <Route path="/DeleteCustomer/:id" element={<DeleteCustomer />}/>
                 <Route path="/DeleteTrainer/:id" element={<DeleteTrainer />}/>
+                <Route path="/DeleteBlogs/:id" element={<DeleteBlogs />}/>
                 <Route path="/Login" element={<Login login={login} />}/>
               
             </Routes>

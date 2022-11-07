@@ -8,8 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Box, Stack } from '@mui/system';
+import { Box, Container, Stack } from '@mui/system';
 import { Link } from 'react-router-dom';
+
 
 export const ListClasses = () => {
   
@@ -29,14 +30,28 @@ export const ListClasses = () => {
   }, [])
 
   return (
-    <div> 
-      <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <Box  sx={{backgroundColor: "lightblue"}}>
+      <Container>
+                <Typography
+                variant="h1"
+                sx={{
+                    color: "white",
+                    textAlign: "center",
+                    fontFamily: 'Bebas Neue',
+                    pt: '5rem'
+                }} 
+                >Classes</Typography>
+            </Container>
+    <Container sx={{pt:"25px", pb: "25px"}}>
+      <TableContainer component={Paper} sx={{pb: "10%"}}>
+      <Table sx={{ minWidth: 650, width: "100%"}} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Class Name</TableCell>
-            <TableCell align="right">Duration Minutes</TableCell>
-            <TableCell align="right">level</TableCell>
+            <TableCell>Class</TableCell>
+            <TableCell align="right">Duration</TableCell>
+            <TableCell align="right">Level</TableCell>
+            <TableCell></TableCell>
+           
           </TableRow>
         </TableHead>
         <TableBody>
@@ -47,15 +62,17 @@ export const ListClasses = () => {
             >
               <TableCell component="th" scope="row">{item.class_name}</TableCell>
               <TableCell align="right">{item.duration_minutes}</TableCell>
-              <TableCell align="right">{item.level}</TableCell>           
-
-              <Button variant="contained" component={Link} to={"/EditClasses"}>Edit</Button>
-              <Button variant="contained" href="/DeleteClasses">Delete</Button>
+              <TableCell align="right">{item.level}</TableCell>
+              <TableCell align="right">
+              <Button variant="contained" sx={{mr: "15px"}}  component={Link} to={"/EditClasses/" + item.class_id}>Edit</Button>
+              <Button variant="contained" component={Link} to={"/DeleteClasses/" + item.class_id}>Delete</Button>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
-    </div>
+    </Container>
+    </Box>
   );
 }

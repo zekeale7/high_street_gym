@@ -1,79 +1,148 @@
-import express from "express";
-import bcrypt from "bcryptjs";
-import { createClassBooking, getAllClassBookings, getClassBookingByID, getClassBookingDetails } from "../models/class_bookings.js";
+import express from "express"
+import {
+    createClassBooking,
+    getAllClassBookings,
+    deleteClassBookingById,
+    updateClassBookingById,
+    getClassBookingById
+} from "../models/class_bookings.js"
 
+const classBookingController = express.Router()
 
-
-const classBookingController = express.Router();
-
+// GET /all - Get a list of all bookings
 classBookingController.get("/all", (req, res) => {
     getAllClassBookings()
-        .then(([class_bookings]) => {
-            res.status(200).json({
-                status: 200,
-                class_bookings: class_bookings,
-            });
-        })
-        .catch((error) => {
-            res.status(500).json({
-                status: 500,
-                message: "Failed to get blog list from database",
-            });
-        });
-});
-
-classBookingController.get("/booking_details", (req, res) => {
-    getClassBookingDetails()
-        .then(([class_bookings]) => {
-            res.status(200).json({
-                status: 200,
-                class_bookings: class_bookings,
-            });
-        })
-        .catch((error) => {
-            res.status(500).json({
-                status: 500,
-                message: "Failed to get blog list from database",
-            });
-        });
-});
-
-
-classBookingController.get("/:id", (request, response) => {
-    getClassBookingByID(request.params.id)
         .then(([results]) => {
-            if (results.length > 0) {
-                response.status(200).json(results[0])
-            } else {
-                response.status(404).json("Class Booking not found")
-            }
+            res.status(200).json({
+                status: 200,
+                bookings: results
+            })
         })
-        .catch(error => {
-            console.log("failed to get class booking by id - " + error)
-            response.status(500).json("failed to get class booking by id")
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Failed to query bookings",
+                error: error,
+            })
         })
 })
 
-classBookingController.post("/create", async(req, res) => {
-    // TODO: Validation
+// GET /byid/:id - Get a single booking by ID
+classBookingController.get("/byid/:id", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // ie. bookings/byid/24 <-- do we have this.
+    if (req.params.id) {
+        getClassBookingById(req.params.id)
+            .then(([results]) => {
+                // Check that we found a booking
+                if (results.length > 0) {
+                    const first_booking = results[0]
+                    res.status(200).json({
+                        status: 200,
+                        booking: first_booking
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Booking not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Query error",
+                    error: error,
+                })
+            })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing booking ID from request"
+        })
+    }
+})
 
-    const signUp = req.body;
+// POST /create - Create a new booking
+classBookingController.post("/create", (req, res) => {
+    // TODO: Validate incoming date here
+
+    const booking = req.body
 
     createClassBooking(
-            signUp.booking_date,
+            booking.booking_date,
+            booking.class_trainer_name,
+            booking.class_id
         )
-        .then(() => {
+        .then(([result]) => {
             res.status(200).json({
                 status: 200,
-                message: " Class Booking Created",
-            });
+                message: "Booking created"
+            })
         })
         .catch((error) => {
             res.status(500).json({
                 status: 500,
-                message: "failed to create class booking: " + error,
-            });
-        });
-});
+                message: "Failed to create booking",
+                error: error,
+            })
+        })
+})
+
+// PATCH /update - Update an existing booking by ID with all fields
+classBookingController.patch("/update", (req, res) => {
+    // TODO: Validate incoming date here
+
+    const booking = req.body
+
+    updateClassBookingById(
+            booking.class_booking_id,
+            booking.booking_date,
+            booking.class_trainer_name,
+            booking.class_id
+        )
+        .then(([result]) => {
+            res.status(200).json({
+                status: 200,
+                message: "Booking updated"
+            })
+        })
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Failed to update booking",
+                error: error,
+            })
+        })
+})
+
+
+// DELETE /delete/:id - Delete an existing booking by ID
+classBookingController.delete("/delete/:id", (req, res) => {
+    if (req.params.id) {
+        deleteClassBookingById(req.params.id)
+            .then(([result]) => {
+                if (result.affectedRows > 0) {
+                    res.status(200).json({
+                        status: 200,
+                        message: "Booking deleted"
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Booking not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Failed to delete booking",
+                    error: error,
+                })
+            })
+    }
+})
+
 
 export default classBookingController;
