@@ -31,6 +31,7 @@ import { CreateTrainer} from "./pages/CreateTrainer"
 import { ListBlogs} from "./pages/ListBlogs"
 import { CreateClassBooking} from "./pages/CreateClassBooking"
 import { DeleteClassBooking } from "./pages/DeleteClassBooking"
+import { DeleteClasses } from "./pages/DeleteClasses"
 
 
 
@@ -71,7 +72,7 @@ export const App = () => {
                 <Route path="/AboutUs" element={<AboutUs />}/>
                 <Route path="/Account/:id" element={<Account />}/>
                 <Route path="/CreateClasses" element={<CreateClasses />}/>
-                <Route path="/EditClasses" element={<EditClasses />}/>
+                <Route path="/EditClasses/:id" element={<EditClasses />}/>
                 <Route path="/EditClassBookings/:id" element={<EditClassBookings />}/>
                 <Route path="/EditCustomers/:id" element={<EditCustomers />}/>
                 <Route path="/EditTrainers/:id" element={<EditTrainers />} />
@@ -83,6 +84,7 @@ export const App = () => {
                 <Route path="/DeleteCustomer/:id" element={<DeleteCustomer />}/>
                 <Route path="/DeleteTrainer/:id" element={<DeleteTrainer />}/>
                 <Route path="/DeleteBlogs/:id" element={<DeleteBlogs />}/>
+                <Route path="/DeleteClasses/:id" element={<DeleteClasses />}/>
                 <Route path="/Login" element={<Login login={login} />}/>
               
             </Routes>

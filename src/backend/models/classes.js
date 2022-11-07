@@ -7,8 +7,20 @@ export function getAllClasses() {
     return db_conn.query("SELECT * FROM classes")
 }
 
-export function getClassById(class_id) {
+export function getClassByID(class_id) {
     return db_conn.query("SELECT * FROM classes WHERE class_id = ?", [class_id])
 }
 
-// TODO: Add others... (out of scope for this lesson).
+// Update
+export function updateClassByID(class_id, class_name, duration_minutes, level, trainer_id) {
+    return db_conn.query(
+        "UPDATE classes " +
+        "SET class_name = ?, duration_minutes = ?, level = ?, trainer_id = ? " +
+        "WHERE class_id = ?", [class_name, duration_minutes, level, trainer_id, class_id]
+    )
+}
+
+// Delete
+export function deleteClassByID(class_id) {
+    return db_conn.query("DELETE FROM classes WHERE class_id = ?", [class_id])
+}

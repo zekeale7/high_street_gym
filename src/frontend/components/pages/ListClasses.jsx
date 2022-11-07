@@ -50,8 +50,8 @@ export const ListClasses = () => {
             <TableCell>Class</TableCell>
             <TableCell align="right">Duration</TableCell>
             <TableCell align="right">Level</TableCell>
-            <TableCell></TableCell>
-           
+            <TableCell align="right"></TableCell>
+       
           </TableRow>
         </TableHead>
         <TableBody>
@@ -63,10 +63,11 @@ export const ListClasses = () => {
               <TableCell component="th" scope="row">{item.class_name}</TableCell>
               <TableCell align="right">{item.duration_minutes}</TableCell>
               <TableCell align="right">{item.level}</TableCell>
-              <TableCell align="right">
+              <TableCell>
               <Button variant="contained" sx={{mr: "15px"}}  component={Link} to={"/EditClasses/" + item.class_id}>Edit</Button>
               <Button variant="contained" component={Link} to={"/DeleteClasses/" + item.class_id}>Delete</Button>
               </TableCell>
+              
             </TableRow>
           ))}
         </TableBody>
