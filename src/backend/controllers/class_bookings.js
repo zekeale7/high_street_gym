@@ -6,6 +6,7 @@ import {
     updateClassBookingById,
     getClassBookingById
 } from "../models/class_bookings.js"
+import validator from "validator"
 
 const classBookingController = express.Router()
 
@@ -65,13 +66,26 @@ classBookingController.get("/byid/:id", (req, res) => {
 
 // POST /create - Create a new booking
 classBookingController.post("/create", (req, res) => {
-    // TODO: Validate incoming date here
 
     const booking = req.body
 
+    if (!validator.isDate(booking.booking_date, "en-US", { ignore: " -/" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid date"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(booking.class_trainer_name, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid trainer name"
+        })
+        return
+    }
     createClassBooking(
-            booking.booking_date,
-            booking.class_trainer_name,
+            validator.escape(booking.booking_date),
+            validator.escape(booking.class_trainer_name),
             booking.class_id
         )
         .then(([result]) => {

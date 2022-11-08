@@ -19,6 +19,7 @@ export const EditClasses = () => {
     const [durationMinutes, setDurationMinutes] = useState("John Doe")
     const [classLevel, setClassLevel] = useState("John Doe")
     const [trainerID, setTrainerID] = useState([0])
+    const [status, setStatus] = useState("");
 
  
     // Load the existing booking data for this record
@@ -31,6 +32,7 @@ export const EditClasses = () => {
                     setClassName(classes.class_name)
                     setDurationMinutes(classes.duration_minutes)
                     setClassLevel(classes.level)
+                    setTrainerID(classes.trainer_id)
                 } else {
                     console.log("Request error")
                 }
@@ -42,6 +44,7 @@ export const EditClasses = () => {
 
     // Handle the saving of updated data
     const onSubmitUpdateBooking = (e) => {
+        setStatus("Creating...");
         e.preventDefault()
 
         const classes = {
@@ -62,13 +65,16 @@ export const EditClasses = () => {
         })
             .then(res => res.json())
             .then(res => {
-                alert(res.message)
-                navigate("/ListClasses")
-                // You would probably want to redirect (navigate) to another page here.
+                if (res.status == 200) {
+                    setStatus(res.message);
+                    navigate("/ListClasses");
+                } else {
+                    setStatus(res.message);
+                }
             })
-            .catch(error => {
-                alert(error)
-            })
+            .catch((error) => {
+                setStatus("failed to fetch: " + error);
+            });
     }
 
 return( 
@@ -98,7 +104,11 @@ return(
                     <Grid item xs={12} sm={6}>
                         <TextField fullWidth  label="Level:" type="text" value={classLevel} onChange={(e) => setClassLevel(e.target.value)} />
                     </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField fullWidth  label="Trainer ID:" type="text" value={trainerID} onChange={(e) => setTrainerID(e.target.value)} />
+                    </Grid>
                     <Grid item xs={12} sm={12}>
+                    <span>{status}</span>
                     <Button
                         fullWidth
                         type="submit"

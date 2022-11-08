@@ -1,17 +1,39 @@
 import express from "express";
 import { createBlog, deleteBlogByID, getAllBlogs, getBlogByID, updateBlogByID } from "../models/blogs.js";
+import validator from "validator"
 
 const blogController = express.Router();
 
 blogController.post("/create", async(req, res) => {
-    // TODO: Validation
 
     const blog = req.body;
 
+    if (!validator.isAlphanumeric(blog.blog_title, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid Title"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(blog.blog_content, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid characters in content"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(blog.blog_author, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid Author"
+        })
+        return
+    }
+
     createBlog(
-            blog.blog_title,
-            blog.blog_content,
-            blog.blog_author,
+            validator.escape(blog.blog_title),
+            validator.escape(blog.blog_content),
+            validator.escape(blog.blog_author),
             blog.login_id,
         )
         .then(() => {
@@ -46,15 +68,37 @@ blogController.get("/all", (req, res) => {
 
 // PATCH /update - Update an existing booking by ID with all fields
 blogController.patch("/update", (req, res) => {
-    // TODO: Validate incoming date here
 
     const blog = req.body
 
+    if (!validator.isAlphanumeric(blog.blog_title, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid Title"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(blog.blog_content, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid characters in content"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(blog.blog_author, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid Author"
+        })
+        return
+    }
+
     updateBlogByID(
             blog.blog_id,
-            blog.blog_title,
-            blog.blog_content,
-            blog.blog_author,
+            validator.escape(blog.blog_title),
+            validator.escape(blog.blog_content),
+            validator.escape(blog.blog_author),
+            blog.login_id,
         )
         .then(([result]) => {
             res.status(200).json({

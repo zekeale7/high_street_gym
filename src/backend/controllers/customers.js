@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import { createCustomer, deleteCustomerByID, getAllCustomers, getCustomerByID, updateCustomerById } from "../models/customers.js";
 import { createLogin, deleteLoginByID } from "../models/logins.js";
+import validator from "validator"
 
 
 const customerController = express.Router();
@@ -18,21 +19,88 @@ customerController.get("/all", (request, response) => {
 
 // PATCH /update - Update an existing booking by ID with all fields
 customerController.patch("/update", (req, res) => {
-    // TODO: Validate incoming date here
 
     const customer = req.body
 
+    if (!validator.isAlphanumeric(customer.first_name)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid firstname"
+        })
+        return
+    }
+
+    if (!validator.isAlphanumeric(customer.last_name)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid lastname"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(customer.phone)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid phone"
+        })
+        return
+    }
+
+    if (!validator.isEmail(customer.email)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid email"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(customer.country)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid country"
+        })
+        return
+    }
+
+    if (!validator.isAlphanumeric(customer.state)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid state"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(customer.street)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid street"
+        })
+        return
+    }
+
+    if (!validator.isAlphanumeric(customer.city)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid city"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(customer.postcode)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid postcode"
+        })
+        return
+    }
+
     updateCustomerById(
             customer.customer_id,
-            customer.first_name,
-            customer.last_name,
-            customer.phone,
-            customer.email,
-            customer.country,
-            customer.state,
-            customer.street,
-            customer.city,
-            customer.street,
+            validator.escape(customer.first_name),
+            validator.escape(customer.last_name),
+            validator.escape(customer.phone),
+            validator.escape(customer.email),
+            validator.escape(customer.country),
+            validator.escape(customer.state),
+            validator.escape(customer.street),
+            validator.escape(customer.city),
+            validator.escape(customer.postcode),
         )
         .then(([result]) => {
             res.status(200).json({
@@ -86,9 +154,84 @@ customerController.get("/byid/:id", (req, res) => {
 })
 
 customerController.post("/sign-up", async(req, res) => {
-    // TODO: Validation
 
     const signUp = req.body;
+
+
+    if (!validator.isAlphanumeric(signUp.first_name)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid firstname"
+        })
+        return
+    }
+
+    if (!validator.isAlphanumeric(signUp.last_name)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid lastname"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(signUp.phone)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid phone"
+        })
+        return
+    }
+
+    if (!validator.isEmail(signUp.email)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid email"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(signUp.country)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid country"
+        })
+        return
+    }
+
+    if (!validator.isAlphanumeric(signUp.state)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid state"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(signUp.street)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid street"
+        })
+        return
+    }
+
+    if (!validator.isAlphanumeric(signUp.city)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid city"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(signUp.postcode)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid postcode"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(signUp.username)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid Username"
+        })
+        return
+    }
 
     // Hash password
     const password_hash = await bcrypt.hash(signUp.password, 6);
@@ -99,15 +242,17 @@ customerController.post("/sign-up", async(req, res) => {
 
     createCustomer(
             login_id,
-            signUp.first_name,
-            signUp.last_name,
-            signUp.phone,
-            signUp.email,
-            signUp.country,
-            signUp.state,
-            signUp.city,
-            signUp.street,
-            signUp.postcode
+            validator.escape(signUp.username),
+            validator.escape(signUp.first_name),
+            validator.escape(signUp.last_name),
+            validator.escape(signUp.phone),
+            validator.escape(signUp.email),
+            validator.escape(signUp.country),
+            validator.escape(signUp.state),
+            validator.escape(signUp.street),
+            validator.escape(signUp.city),
+            validator.escape(signUp.postcode),
+            password_hash
         )
         .then(() => {
             res.status(200).json({

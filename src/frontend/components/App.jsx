@@ -35,6 +35,8 @@ import { ListAdmins } from "./pages/ListAdmins"
 import { EditAdmins } from "./pages/EditAdmins"
 import { DeleteAdmins } from "./pages/DeleteAdmins"
 import { ListClassBookingMember } from "./pages/ListClassBookingMember"
+import { ListBookedClasses } from "./pages/ListBookedClasses"
+import { CreateClassBookingMember } from "./pages/CreateClassBookingMember"
 
 
 
@@ -68,12 +70,14 @@ export const App = () => {
                 <Route path="/CruiseList" element={<CruiseList />}/>
                 <Route path="/Signup" element={<SignUp />} />
                 <Route path="/ListClasses" element={<ListClasses />}/>
+                <Route path="/ListBookedClasses" element={<ListBookedClasses />}/>
                 <Route path="/ListClassBookingAdmin" element={<ListClassBookingAdmin />}/>
                 <Route path="/ListClassBookingMember" element={<ListClassBookingMember />}/>
                 <Route path="/CreateAdmin" element={<CreateAdmin />}/>
                 <Route path="/CreateTrainer" element={<CreateTrainer />}/>
                 <Route path="/CreateBlogs" element={<CreateBlogs />}/>
                 <Route path="/CreateClassBooking" element={<CreateClassBooking />}/>
+                <Route path="/CreateClassBookingMember" element={<CreateClassBookingMember />}/>
                 <Route path="/AboutUs" element={<AboutUs />}/>
                 <Route path="/Account/:id" element={<Account />}/>
                 <Route path="/CreateClasses" element={<CreateClasses />}/>

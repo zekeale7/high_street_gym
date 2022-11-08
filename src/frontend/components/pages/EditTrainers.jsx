@@ -18,6 +18,7 @@ export const EditTrainers = () => {
     const [trainerFirstName, setTrainerFirstName] = useState("John Doe")
     const [trainerLastName, setTrainerLastName] = useState("John Doe")
     const [loginID, setloginID] = useState([0])
+    const [status, setStatus] = useState("");
 
  
     // Load the existing booking data for this record
@@ -41,6 +42,7 @@ export const EditTrainers = () => {
 
     // Handle the saving of updated data
     const onSubmitUpdateBooking = (e) => {
+        setStatus("Creating...");
         e.preventDefault()
 
         const trainer = {
@@ -60,13 +62,16 @@ export const EditTrainers = () => {
         })
             .then(res => res.json())
             .then(res => {
-                alert(res.message)
-                navigate("/ListTrainers")
-                // You would probably want to redirect (navigate) to another page here.
+                if (res.status == 200) {
+                    setStatus(res.message);
+                    navigate("/ListTrainers");
+                } else {
+                    setStatus(res.message);
+                }
             })
-            .catch(error => {
-                alert(error)
-            })
+            .catch((error) => {
+                setStatus("failed to fetch: " + error);
+            });
     }
 
 return( 
@@ -93,6 +98,7 @@ return(
                     <Grid item xs={12} sm={6}>
                         <TextField fullWidth  label="Last Name:" type="text" value={trainerLastName} onChange={(e) => setTrainerLastName(e.target.value)} />
                     </Grid>
+                   
                     <Grid item xs={12} sm={12}>
                     <Button
                         fullWidth
@@ -101,6 +107,10 @@ return(
                         sx={{ mt: 3, mb: 2, }}
                         >Update Trainer</Button>
                     </Grid>
+                    <Grid item xs={12} sm={6}>
+                    <span>{status}</span>
+                    </Grid>
+                   
                 </Grid>
             </CardContent>
             </Card>

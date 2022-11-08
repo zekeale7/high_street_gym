@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import { createTrainer, deleteTrainerById, getAllTrainers, getTrainerByID, updateTrainerById } from "../models/trainers.js";
 import { createLogin } from "../models/logins.js";
-
+import validator from "validator"
 
 const trainerController = express.Router();
 
@@ -17,9 +17,30 @@ trainerController.get("/all", (request, response) => {
 })
 
 trainerController.post("/sign-up", async(req, res) => {
-    // TODO: Validation
 
     const signUp = req.body;
+
+    if (!validator.isAlphanumeric(signUp.first_name)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid Firstname"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(signUp.last_name)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid Lastname"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(signUp.username)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid Username"
+        })
+        return
+    }
 
     // Hash password
     const password_hash = await bcrypt.hash(signUp.password, 6);
@@ -30,8 +51,10 @@ trainerController.post("/sign-up", async(req, res) => {
 
     createTrainer(
             login_id,
-            signUp.first_name,
-            signUp.last_name,
+            validator.escape(signUp.username),
+            validator.escape(signUp.first_name),
+            validator.escape(signUp.last_name),
+            password_hash
         )
         .then(() => {
             res.status(200).json({
@@ -49,14 +72,29 @@ trainerController.post("/sign-up", async(req, res) => {
 
 // PATCH /update - Update an existing booking by ID with all fields
 trainerController.patch("/update", (req, res) => {
-    // TODO: Validate incoming date here
 
     const trainer = req.body
 
+    if (!validator.isAlphanumeric(trainer.first_name)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid firstname"
+        })
+        return
+    }
+
+    if (!validator.isAlphanumeric(trainer.last_name)) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid lastname"
+        })
+        return
+    }
+
     updateTrainerById(
             trainer.trainer_id,
-            trainer.first_name,
-            trainer.last_name,
+            validator.escape(trainer.first_name),
+            validator.escape(trainer.last_name),
             trainer.login_id
         )
         .then(([result]) => {

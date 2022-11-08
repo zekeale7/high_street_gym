@@ -1,6 +1,6 @@
 import express from "express"
-import { getAllClasses, deleteClassByID, updateClassByID, getClassByID } from "../models/classes.js"
-
+import { getAllClasses, deleteClassByID, updateClassByID, getClassByID, createClass } from "../models/classes.js"
+import validator from "validator"
 
 const classController = express.Router()
 
@@ -12,6 +12,53 @@ classController.get("/all", (request, response) => {
         })
         .catch(error => {
             response.status(500).json(error)
+        })
+})
+
+// POST /create - Create a new booking
+classController.post("/create", (req, res) => {
+
+    const classes = req.body
+
+    if (!validator.isAlphanumeric(classes.class_name, "en-US", { ignore: " -/" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid class name"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(classes.duration_minutes, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid duration"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(classes.level, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid level"
+        })
+        return
+    }
+    createClass(
+            validator.escape(classes.class_name),
+            validator.escape(classes.duration_minutes),
+            validator.escape(classes.level),
+            classes.trainer_id
+        )
+        .then(([result]) => {
+            res.status(200).json({
+                status: 200,
+                message: "Booking created"
+            })
+        })
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Failed to create booking",
+                error: error,
+            })
         })
 })
 
@@ -52,16 +99,39 @@ classController.get("/byid/:id", (req, res) => {
 
 // PATCH /update - Update an existing booking by ID with all fields
 classController.patch("/update", (req, res) => {
-    // TODO: Validate incoming date here
 
     const classes = req.body
 
+
+    if (!validator.isAlphanumeric(classes.class_name, "en-US", { ignore: " -/" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid class name"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(classes.duration_minutes, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid duration"
+        })
+        return
+    }
+    if (!validator.isAlphanumeric(classes.level, "en-US", { ignore: " -" })) {
+        res.status(400).json({
+            status: 400,
+            message: "invalid level"
+        })
+        return
+    }
+
     updateClassByID(
             classes.class_id,
-            classes.class_name,
-            classes.duration_minutes,
-            classes.level,
-            classes.trainer_id
+            validator.escape(classes.class_name),
+            validator.escape(classes.duration_minutes),
+            validator.escape(classes.level),
+            classes.trainer_id,
+
 
         )
         .then(([result]) => {

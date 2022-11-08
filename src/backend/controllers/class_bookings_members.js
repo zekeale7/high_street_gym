@@ -1,5 +1,5 @@
 import express from "express"
-import { createClassBookingMember, deleteClassBookingMemberByID, getAllClassBookingMembers, getClassBookingMemberByID, updateClassBookingMemberByID } from "../models/class_bookings_members.js"
+import { createClassBookingMember, deleteClassBookingMemberByID, getAllClassBookingMembers, getBookingDetails, getClassBookingMemberByID, updateClassBookingMemberByID } from "../models/class_bookings_members.js"
 
 const classBookingMemberController = express.Router()
 
@@ -64,6 +64,9 @@ classBookingMemberController.post("/create", (req, res) => {
     const booking = req.body
 
     createClassBookingMember(
+
+            booking.first_name,
+            booking.last_name,
             booking.class_booking_id,
             booking.customer_id,
         )
@@ -92,6 +95,8 @@ classBookingMemberController.patch("/update", (req, res) => {
             booking.class_bookings_members_id,
             booking.class_booking_id,
             booking.customer_id,
+            booking.first_name,
+            booking.last_name,
         )
         .then(([result]) => {
             res.status(200).json({
@@ -134,6 +139,20 @@ classBookingMemberController.delete("/delete/:id", (req, res) => {
                 })
             })
     }
+})
+
+classBookingMemberController.get("/booking_details/:id", (req, res) => {
+    getBookingDetails(req.params.id)
+        .then(([results]) => {
+            res.status(200).json({
+                status: 200,
+                booking_details: results,
+            })
+        })
+        .catch(error => {
+            res.status(500).json("Failed to get all orders with details")
+            console.log(error)
+        })
 })
 
 

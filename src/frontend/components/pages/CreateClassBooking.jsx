@@ -20,7 +20,7 @@ export const CreateClassBooking = () => {
                     console.log("Error loading classes for select box")
                 }
             })
-    }, [])
+    }, [classList])
 
     const onSubmitCreateBooking = (e) => {
         e.preventDefault()

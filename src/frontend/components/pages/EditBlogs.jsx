@@ -19,6 +19,7 @@ export const EditBlogs = () => {
     const [blogContent, setBlogContent] = useState("John Doe")
     const [blogAuthor, setBlogAuthor] = useState("John Doe")
     const [loginID, setLoginID] = useState([0])
+    const [status, setStatus] = useState("");
 
  
     // Load the existing booking data for this record
@@ -43,6 +44,7 @@ export const EditBlogs = () => {
 
     // Handle the saving of updated data
     const onSubmitUpdateBooking = (e) => {
+        setStatus("Creating...");
         e.preventDefault()
 
         const blogs = {
@@ -61,15 +63,18 @@ export const EditBlogs = () => {
             },
             body: JSON.stringify(blogs)
         })
-            .then(res => res.json())
-            .then(res => {
-                alert(res.message)
-                navigate("/ListBlogs")
-                // You would probably want to redirect (navigate) to another page here.
-            })
-            .catch(error => {
-                alert(error)
-            })
+        .then(res => res.json())
+        .then(res => {
+            if (res.status == 200) {
+                setStatus(res.message);
+                navigate("/ListAdmins");
+            } else {
+                setStatus(res.message);
+            }
+        })
+        .catch((error) => {
+            setStatus("failed to fetch: " + error);
+        });
     }
 
 return( 
@@ -99,7 +104,7 @@ return(
                     <Grid item xs={12} sm={6}>
                         <TextField fullWidth label="Author:" type="text" value={blogAuthor} onChange={(e) => setBlogAuthor(e.target.value)} />
                     </Grid>
-    
+                    <span>{status}</span>
                     <Grid item xs={12} sm={12}>
                     <Button
                         fullWidth

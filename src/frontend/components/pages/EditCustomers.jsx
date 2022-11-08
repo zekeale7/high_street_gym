@@ -23,6 +23,7 @@ export const EditCustomers = () => {
     const [customerCity, setCustomerCity] = useState("Brisbane")
     const [customerStreet, setCustomerStreet] = useState("john St")
     const [customerPostcode, setCustomerPostcode] = useState("0000")
+    const [status, setStatus] = useState("");
 
     // Load the existing booking data for this record
     useEffect(() => {
@@ -77,13 +78,16 @@ export const EditCustomers = () => {
         })
             .then(res => res.json())
             .then(res => {
-                alert(res.message)
-                navigate("/ListCustomers")
-                // You would probably want to redirect (navigate) to another page here.
+                if (res.status == 200) {
+                    setStatus(res.message);
+                    navigate("/ListCustomers");
+                } else {
+                    setStatus(res.message);
+                }
             })
-            .catch(error => {
-                alert(error)
-            })
+            .catch((error) => {
+                setStatus("failed to fetch: " + error);
+            });
     }
 
     return(
@@ -141,6 +145,9 @@ export const EditCustomers = () => {
                     variant="contained"
                     sx={{ mt: 3, mb: 2, }}
                     >Update Trainer</Button>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                <span>{status}</span>
                 </Grid>
             </Grid>
         </CardContent>

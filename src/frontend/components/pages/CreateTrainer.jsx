@@ -42,7 +42,7 @@ export const CreateTrainer = () => {
         .then((res) => {
             if (res.status == 200) {
                 setStatus(res.message);
-                navigate("/Login");
+                navigate("/ListTrainers");
             } else {
                 setStatus(res.message);
             }

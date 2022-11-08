@@ -31,7 +31,7 @@ export const CreateClasses = () => {
   const onSubmit = (data) => {
     setStatus("Creating...");
 
-    fetch("/api/classes/sign-up", {
+    fetch("/api/classes/create", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
