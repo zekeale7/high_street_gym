@@ -1,19 +1,140 @@
-import express from "express";
-import { createClassBookingMember } from "../models/class_bookings_members.js";
+import express from "express"
+import { createClassBookingMember, deleteClassBookingMemberByID, getAllClassBookingMembers, getClassBookingMemberByID, updateClassBookingMemberByID } from "../models/class_bookings_members.js"
 
-const classBookingMembersController = express.Router();
+const classBookingMemberController = express.Router()
 
-classBookingMembersController.post("/create", (request, response) => {
-    let create = request.body
-
-    createClassBookingMember(create.class_booking_id, create.customer_id)
+// GET /all - Get a list of all bookings
+classBookingMemberController.get("/all", (req, res) => {
+    getAllClassBookingMembers()
         .then(([results]) => {
-            response.status(200).json({ status: "Class booked successfully", class_bookings_members_id: results.insertId })
+            res.status(200).json({
+                status: 200,
+                bookings: results
+            })
         })
-        .catch(error => {
-            response.status(500).json("failed to book class")
-            console.log(error)
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Failed to query Member bookings",
+                error: error,
+            })
         })
 })
 
-export default classBookingMembersController;
+// GET /byid/:id - Get a single booking by ID
+classBookingMemberController.get("/byid/:id", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // ie. bookings/byid/24 <-- do we have this.
+    if (req.params.id) {
+        getClassBookingMemberByID(req.params.id)
+            .then(([results]) => {
+                // Check that we found a booking
+                if (results.length > 0) {
+                    const first_booking = results[0]
+                    res.status(200).json({
+                        status: 200,
+                        booking: first_booking
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Member Booking not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Query error",
+                    error: error,
+                })
+            })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing Member booking ID from request"
+        })
+    }
+})
+
+// POST /create - Create a new booking
+classBookingMemberController.post("/create", (req, res) => {
+    // TODO: Validate incoming date here
+
+    const booking = req.body
+
+    createClassBookingMember(
+            booking.class_booking_id,
+            booking.customer_id,
+        )
+        .then(([result]) => {
+            res.status(200).json({
+                status: 200,
+                message: "Member Booking created"
+            })
+        })
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Failed to create Member booking",
+                error: error,
+            })
+        })
+})
+
+// PATCH /update - Update an existing booking by ID with all fields
+classBookingMemberController.patch("/update", (req, res) => {
+    // TODO: Validate incoming date here
+
+    const booking = req.body
+
+    updateClassBookingMemberByID(
+            booking.class_bookings_members_id,
+            booking.class_booking_id,
+            booking.customer_id,
+        )
+        .then(([result]) => {
+            res.status(200).json({
+                status: 200,
+                message: "Member Booking updated"
+            })
+        })
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Failed to update Member booking",
+                error: error,
+            })
+        })
+})
+
+
+// DELETE /delete/:id - Delete an existing booking by ID
+classBookingMemberController.delete("/delete/:id", (req, res) => {
+    if (req.params.id) {
+        deleteClassBookingMemberByID(req.params.id)
+            .then(([result]) => {
+                if (result.affectedRows > 0) {
+                    res.status(200).json({
+                        status: 200,
+                        message: "Member Booking deleted"
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Member Booking not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Failed to delete Member booking",
+                    error: error,
+                })
+            })
+    }
+})
+
+
+export default classBookingMemberController;

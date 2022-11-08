@@ -85,6 +85,8 @@ import exportController from "./controllers/export.js";
 app.use("/export", exportController);
 import cruiseController from "./controllers/cruises.js";
 app.use("/cruises", cruiseController);
+import adminController from "./controllers/admins.js";
+app.use("/admins", adminController);
 import customerController from "./controllers/customers.js";
 app.use("/customers", customerController);
 import trainerController from "./controllers/trainers.js";

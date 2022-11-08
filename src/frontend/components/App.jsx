@@ -3,7 +3,6 @@ import {Home} from "./pages/Home"
 import {CruiseList} from "./pages/CruiseList"
 import {Login} from "./pages/Login"
 import {NavBar} from "./NavBar"
-import {BasicSelect} from "./SelectComponenet"
 import {SignUp} from "./pages/Signup"
 import {ListClasses} from "./pages/ListClasses"
 import {Footer} from "./Footer"
@@ -16,12 +15,11 @@ import { EditCustomers } from "./pages/EditCustomers"
 import { EditTrainers } from "./pages/EditTrainers"
 import { EditClassBookings } from "./pages/EditClassBookings"
 import { ListCustomers } from "./pages/ListCustomers"
-import { ListClassBooking } from "./pages/ListClassBooking"
+import { ListClassBookingAdmin } from "./pages/ListClassBookingAdmin"
 import { AboutUs } from "./pages/AboutUs"
 import { Account } from "./pages/Account"
 import { CreateClasses } from "./pages/CreateClasses"
 import { CreateBlogs } from "./pages/CreateBlogs"
-import {ClassPage} from "./pages/ClassPage"
 import useLogin from "./../hooks/login_hooks";
 import { ListTrainers } from "./pages/ListTrainers"
 import { DeleteCustomer } from "./pages/DeleteCustomer"
@@ -32,6 +30,11 @@ import { ListBlogs} from "./pages/ListBlogs"
 import { CreateClassBooking} from "./pages/CreateClassBooking"
 import { DeleteClassBooking } from "./pages/DeleteClassBooking"
 import { DeleteClasses } from "./pages/DeleteClasses"
+import { CreateAdmin } from "./pages/CreateAdmin"
+import { ListAdmins } from "./pages/ListAdmins"
+import { EditAdmins } from "./pages/EditAdmins"
+import { DeleteAdmins } from "./pages/DeleteAdmins"
+import { ListClassBookingMember } from "./pages/ListClassBookingMember"
 
 
 
@@ -45,7 +48,7 @@ const theme = createTheme({
 
 
 export const App = () => {
-        const { login, logout, loggedIn, customer, trainer } = useLogin();
+        const { login, logout, loggedIn, customer, trainer, admin } = useLogin();
 
         return <>
         <ThemeProvider theme={theme}>
@@ -56,6 +59,7 @@ export const App = () => {
                  loggedIn={loggedIn}
                  customer={customer}
                  trainer={trainer}
+                 admin={admin}
                 />
             </header>
           
@@ -64,8 +68,9 @@ export const App = () => {
                 <Route path="/CruiseList" element={<CruiseList />}/>
                 <Route path="/Signup" element={<SignUp />} />
                 <Route path="/ListClasses" element={<ListClasses />}/>
-                <Route path="/ClassPage" element={<ClassPage />}/>
-                <Route path="/ListClassBooking" element={<ListClassBooking />}/>
+                <Route path="/ListClassBookingAdmin" element={<ListClassBookingAdmin />}/>
+                <Route path="/ListClassBookingMember" element={<ListClassBookingMember />}/>
+                <Route path="/CreateAdmin" element={<CreateAdmin />}/>
                 <Route path="/CreateTrainer" element={<CreateTrainer />}/>
                 <Route path="/CreateBlogs" element={<CreateBlogs />}/>
                 <Route path="/CreateClassBooking" element={<CreateClassBooking />}/>
@@ -75,13 +80,16 @@ export const App = () => {
                 <Route path="/EditClasses/:id" element={<EditClasses />}/>
                 <Route path="/EditClassBookings/:id" element={<EditClassBookings />}/>
                 <Route path="/EditCustomers/:id" element={<EditCustomers />}/>
+                <Route path="/EditAdmins/:id" element={<EditAdmins />}/>
                 <Route path="/EditTrainers/:id" element={<EditTrainers />} />
                 <Route path="/EditBlogs/:id" element={<EditBlogs />} />
                 <Route path="/ListCustomers" element={<ListCustomers />}/>
+                <Route path="/ListAdmins" element={<ListAdmins />}/>
                 <Route path="/ListTrainers" element={<ListTrainers />}/>
                 <Route path="/ListBlogs" element={<ListBlogs />}/>
                 <Route path="/DeleteClassBooking/:id" element={<DeleteClassBooking />}/>
                 <Route path="/DeleteCustomer/:id" element={<DeleteCustomer />}/>
+                <Route path="/DeleteAdmins/:id" element={<DeleteAdmins />}/>
                 <Route path="/DeleteTrainer/:id" element={<DeleteTrainer />}/>
                 <Route path="/DeleteBlogs/:id" element={<DeleteBlogs />}/>
                 <Route path="/DeleteClasses/:id" element={<DeleteClasses />}/>

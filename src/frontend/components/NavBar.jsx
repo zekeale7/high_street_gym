@@ -42,7 +42,7 @@ const pages = [
 // Home, Members, Trainers, Classes, Logout
 
 
-export const NavBar = ({logout, loggedIn, customer, trainer}) => {
+export const NavBar = ({logout, loggedIn, customer, trainer, admin}) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -126,11 +126,6 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
 
             {customer ? (
               <>
-               <MenuItem  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to={"/"}>Home</Link>
-                  </Typography>
-                </MenuItem>
                 <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                   <Link style={{textDecoration: "none", color: "black"}} to={"/Account"}>Account</Link>
@@ -138,7 +133,12 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
                 </MenuItem>
                 <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to={"/ClassPage"}>Book Classes</Link>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListClassBookingMember"}>Bookings</Link>
+                  </Typography>
+                </MenuItem>
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListBlogs"}>Blogs</Link>
                   </Typography>
                 </MenuItem>
                 </>
@@ -147,11 +147,32 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
               )}
                 {trainer ? (
                 <>
-                 <MenuItem  onClick={handleCloseNavMenu}>
+                <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to={"/Home"}>Home</Link>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/Account"}>Account</Link>
                   </Typography>
                 </MenuItem>
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                  <Link style={{textDecoration: "none", color: "black"}} to="/ListClassBookingAdmin">Bookings</Link>
+                  </Typography>
+                </MenuItem>     
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                  <Link style={{textDecoration: "none", color: "black"}} to="/ListClasses">Classes</Link>
+                  </Typography>
+                </MenuItem>
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListBlogs"}>Blogs</Link>
+                  </Typography>
+                </MenuItem>
+                   </>
+                   ) : (
+                       <></>
+                   )}
+                  {admin ? (
+                <>
                 <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
                   <Link style={{textDecoration: "none", color: "black"}} to={"/Account"}>Account</Link>
@@ -159,27 +180,34 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
                 </MenuItem>
                 <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to={"/AboutUs"}>About Us</Link>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListAdmins"}>Admins</Link>
                   </Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseNavMenu}>
+                 <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to="/ListCustomers">Customers</Link>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListCustomers"}>Customers</Link>
                   </Typography>
                 </MenuItem>
-
-                <MenuItem onClick={handleCloseNavMenu}>
+                <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to="/ListTrainers">Trainers</Link>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListTrainers"}>Trainers</Link>
                   </Typography>
                 </MenuItem>
-                  
-                <MenuItem onClick={handleCloseNavMenu}>
+                <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to="/ListClasses">Classes</Link>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListClasses"}>Classes</Link>
                   </Typography>
                 </MenuItem>
-                
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListClassBookingAdmin"}>Bookings</Link>
+                  </Typography>
+                </MenuItem>
+                <MenuItem  onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListBlogs"}>Blogs</Link>
+                  </Typography>
+                </MenuItem>
                    </>
                    ) : (
                        <></>
@@ -202,18 +230,13 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
                     </Typography>
                 </MenuItem>
                 <MenuItem  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to={"/Account"}>Account</Link>
-                  </Typography>
+                    <Typography textAlign="center">
+                    <Link style={{textDecoration: "none", color: "black"}} to={"AboutUs"}>About Us</Link>
+                    </Typography>
                 </MenuItem>
                 <MenuItem  onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to={"/ClassPage"}>Book Classes</Link>
-                  </Typography>
-                </MenuItem>
-                <MenuItem  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListBlogs"}>Blogs</Link>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListClassBookingMember"}>Bookings</Link>
                   </Typography>
                 </MenuItem>
                   <MenuItem onClick={handleCloseNavMenu}>
@@ -263,51 +286,66 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
           */}
               {customer ? (
               <>
-                <Button  onClick={handleCloseNavMenu}>
-                  <Link style={{textDecoration: "none", color: "black"}} to={"/Home"}>Home</Link>              
-                </Button>
                <Button  onClick={handleCloseNavMenu}>
                   <Link style={{textDecoration: "none", color: "black"}} to={"/Account"}>Account</Link>
                 </Button>
                 <Button onClick={handleCloseNavMenu}>
+                      <Link style={{textDecoration: "none", color: "black"}} to="/ListClassBookingMember">Bookings</Link>   
+                  </Button>   
+                <Button onClick={handleCloseNavMenu}>
                       <Link style={{textDecoration: "none", color: "black"}} to="/ListBlogs">Blogs</Link>   
                   </Button>
-                  <Button onClick={handleCloseNavMenu}>
-                      <Link style={{textDecoration: "none", color: "black"}} to="/ClassPage">Book Class</Link>   
-                  </Button>  
+                
                 </>
                  ) : (
                   <></>
               )}
                 {trainer ? (
                         <>
-                 <Button onClick={handleCloseNavMenu}>
-                      <Link style={{textDecoration: "none", color: "black"}} to="/Home">Home</Link>   
-                  </Button>
                    <Button  onClick={handleCloseNavMenu}>
                   <Link style={{textDecoration: "none", color: "black"}} to={"/Account"}>Account</Link>
                 </Button>
-                  <Button onClick={handleCloseNavMenu}>
-                      <Link style={{textDecoration: "none", color: "black"}} to="/AboutUs">About</Link>   
-                  </Button>
-                <Button onClick={handleCloseNavMenu}> 
-                  <Link style={{textDecoration: "none", color: "black"}} to="/ListCustomers">Customers</Link>    
-                </Button>
                 <Button onClick={handleCloseNavMenu}>
-                      <Link style={{textDecoration: "none", color: "black"}} to="/ListBlogs">Blogs</Link>   
+                      <Link style={{textDecoration: "none", color: "black"}} to="/ListClassBookingAdmin">Bookings</Link>   
                   </Button>
                 <Button onClick={handleCloseNavMenu}>              
-                  <Link style={{textDecoration: "none", color: "black"}} to="/ListTrainers">Trainers</Link>
+                  <Link style={{textDecoration: "none", color: "black"}} to="/ListClasses">Classes</Link>
                 </Button>
                   
                 <Button onClick={handleCloseNavMenu}>           
-                  <Link style={{textDecoration: "none", color: "black"}} to="/ListClasses">Classes</Link>     
+                  <Link style={{textDecoration: "none", color: "black"}} to="/ListBlogs">Blogs</Link>     
                 </Button>
-                
                    </>
                    ) : (
                        <></>
                    )}
+                {admin ? (
+              <>
+                <Button  onClick={handleCloseNavMenu}>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/Account"}>Account</Link>              
+                </Button>
+               <Button  onClick={handleCloseNavMenu}>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListAdmins"}>Admins</Link>
+                </Button>
+                <Button  onClick={handleCloseNavMenu}>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListCustomers"}>Customers</Link>
+                </Button>
+                <Button  onClick={handleCloseNavMenu}>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListTrainers"}>Trainers</Link>
+                </Button>
+                <Button  onClick={handleCloseNavMenu}>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListClasses"}>Classes</Link>
+                </Button>
+                <Button  onClick={handleCloseNavMenu}>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListClassBookingAdmin"}>Bookings</Link>
+                </Button>
+                <Button  onClick={handleCloseNavMenu}>
+                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListBlogs"}>Blogs</Link>
+                </Button>
+                </>
+                 ) : (
+                  <></>
+              )}
 
                 {loggedIn ? (
 
@@ -319,13 +357,13 @@ export const NavBar = ({logout, loggedIn, customer, trainer}) => {
                     ) : (
                         <>
                   <Button onClick={handleCloseNavMenu}>
-                      <Link style={{textDecoration: "none", color: "black"}} to="/Home">Home</Link>   
+                      <Link style={{textDecoration: "none", color: "black"}} to="/">Home</Link>   
                   </Button>
                   <Button onClick={handleCloseNavMenu}>
-                      <Link style={{textDecoration: "none", color: "black"}} to="/AboutUs">About</Link>   
+                      <Link style={{textDecoration: "none", color: "black"}} to="/AboutUs">About Us</Link>   
                   </Button>
                   <Button onClick={handleCloseNavMenu}>
-                      <Link style={{textDecoration: "none", color: "black"}} to="/ClassPage">Book Class</Link>   
+                      <Link style={{textDecoration: "none", color: "black"}} to="/ListClassBookingMember">Bookings</Link>   
                   </Button>  
                   <Button onClick={handleCloseNavMenu}>
                       <Link style={{textDecoration: "none", color: "black"}} to="/Signup">Signup</Link>   

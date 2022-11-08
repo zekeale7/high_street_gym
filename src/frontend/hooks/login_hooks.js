@@ -6,6 +6,7 @@ export default useLogin = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [customer, setCustomer] = useState(null);
     const [trainer, setTrainer] = useState(null);
+    const [admin, setAdmin] = useState(null);
 
     useEffect(() => {
         fetch("/api/logins/identity")
@@ -22,6 +23,10 @@ export default useLogin = () => {
 
                     if (response.trainer) {
                         setTrainer(response.trainer);
+                    }
+
+                    if (response.admin) {
+                        setAdmin(response.admin);
                     }
                 }
             });
@@ -72,12 +77,14 @@ export default useLogin = () => {
                 setLoggedIn(false);
                 setCustomer(null);
                 setTrainer(null);
+                setAdmin(null);
                 navigate("/");
             })
             .catch((error) => {
                 setLoggedIn(false);
                 setCustomer(null);
                 setTrainer(null);
+                setAdmin(null);
                 navigate("/");
             });
     };
@@ -88,5 +95,6 @@ export default useLogin = () => {
         loggedIn,
         trainer,
         customer,
+        admin,
     };
 };

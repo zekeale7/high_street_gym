@@ -27,7 +27,6 @@ export function Footer() {
     <Box sx={{ 
       bgcolor: 'lightgrey', 
       p: 6, 
-      bottom: 0,
       width: "100%",
      
       }}  

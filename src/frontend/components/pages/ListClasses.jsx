@@ -41,6 +41,7 @@ export const ListClasses = () => {
                     pt: '5rem'
                 }} 
                 >Classes</Typography>
+                <Button variant="contained" sx={{mr: "15px"}}  component={Link} to="/CreateClasses">Create</Button>
             </Container>
     <Container sx={{pt:"25px", pb: "25px"}}>
       <TableContainer component={Paper} sx={{pb: "10%"}}>

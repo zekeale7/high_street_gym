@@ -66,8 +66,8 @@ const BlogItem = ({ blog }) => {
                 {blog.blog_content ?? "Not specified"}
             </span>
             <span>{blog.blog_author ?? "Not specified"}</span>
-             <Button variant="contained" sx={{mr: "15px"}}  component={Link} to={"/EditBlogs/" + blog.blog_id}>Edit</Button>
-        <Button variant="contained" sx={{mr: "15px"}}  component={Link} to={"/DeleteBlogs/" + blog.blog_id}>Delete</Button>
+             <Button variant="contained" sx={{mr: "15px", width: '200px',}}  component={Link} to={"/EditBlogs/" + blog.blog_id}>Edit</Button>
+        <Button variant="contained" sx={{mr: "15px", width: '200px',}}  component={Link} to={"/DeleteBlogs/" + blog.blog_id}>Delete</Button>
             <Divider sx={{mb: "20px",}}></Divider>
             </Root>
    
