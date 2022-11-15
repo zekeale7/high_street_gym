@@ -75,6 +75,23 @@ const BookingItem = ({ booking }) => {
             })
     }, [])
 
+        // Store the activity details for this booking item in the list
+        const [trainers, setTrainers] = useState({
+        })
+    
+        // Load the activity details for this booking item
+        useEffect(() => {
+            fetch("/api/trainers/byid/" + booking.trainer_id)
+                .then(res => res.json())
+                .then(res => {
+                    if (res.status == 200) {
+                        setTrainers(res.trainer)
+                    } else {
+                        console.log("Error loading trainer for booking item")
+                    }
+                })
+        }, [])
+
     return( 
         <Root sx={{
             display: 'flex',
@@ -85,10 +102,11 @@ const BookingItem = ({ booking }) => {
                   color: "black",
                   fontSize: "30px",
                   fontFamily: 'Bebas Neue',
-        }}>{booking.class_trainer_name}</Typography>
+        }}>{trainers.first_name} {trainers.last_name}</Typography>
         <span>Date: {booking.booking_date}</span>
-        <span>Class: {classes.level} {classes.class_name}</span>
-        <Button variant="contained" component={Link} to={"/"} sx={{
+        <span>Level: {classes.level}</span>
+        <span>Class: {classes.class_name}</span>
+        <Button variant="contained" component={Link} to={"/CreateClassBookingMember"} sx={{
                 fontSize: '13px',
                 width: '200px',
                 padding: '7px',

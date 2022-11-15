@@ -22,10 +22,10 @@ export const DeleteClassBooking = () => {
             .then(res => {
                 if (res.status == 200) {
                     alert("Booking deleted")
-                    navigate("/ListClassBooking")
+                    navigate("/ListClassBookingAdmin")
                 } else {
                     alert("Failed to delete booking")
-                    navigate("/ListClassBooking")
+                    navigate("/ListClassBookingAdmin")
                 }
             })
             .catch(error => {

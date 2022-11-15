@@ -5,13 +5,20 @@ import validator from "validator"
 const classController = express.Router()
 
 // GET /all - Returns an object with status code and array of activities
-classController.get("/all", (request, response) => {
+classController.get("/all", (req, res) => {
     getAllClasses()
         .then(([results]) => {
-            response.status(200).json(results)
+            res.status(200).json({
+                status: 200,
+                classes: results
+            })
         })
-        .catch(error => {
-            response.status(500).json(error)
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Failed to query classes",
+                error: error,
+            })
         })
 })
 
@@ -34,29 +41,23 @@ classController.post("/create", (req, res) => {
         })
         return
     }
-    if (!validator.isAlphanumeric(classes.level, "en-US", { ignore: " -" })) {
-        res.status(400).json({
-            status: 400,
-            message: "invalid level"
-        })
-        return
-    }
+
     createClass(
             validator.escape(classes.class_name),
             validator.escape(classes.duration_minutes),
-            validator.escape(classes.level),
-            classes.trainer_id
+            classes.level,
+
         )
         .then(([result]) => {
             res.status(200).json({
                 status: 200,
-                message: "Booking created"
+                message: "Class created"
             })
         })
         .catch((error) => {
             res.status(500).json({
                 status: 500,
-                message: "Failed to create booking",
+                message: "Failed to create class",
                 error: error,
             })
         })
@@ -117,20 +118,13 @@ classController.patch("/update", (req, res) => {
         })
         return
     }
-    if (!validator.isAlphanumeric(classes.level, "en-US", { ignore: " -" })) {
-        res.status(400).json({
-            status: 400,
-            message: "invalid level"
-        })
-        return
-    }
 
     updateClassByID(
             classes.class_id,
             validator.escape(classes.class_name),
             validator.escape(classes.duration_minutes),
-            validator.escape(classes.level),
-            classes.trainer_id,
+            classes.level,
+
 
 
         )

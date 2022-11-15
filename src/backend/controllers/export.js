@@ -4,11 +4,37 @@ import ejs from "ejs";
 import { getAllCruises } from "../models/cruises.js";
 import { getPortsByID } from "../models/ports_sail.js";
 import { getAllBookingsByCruiseID } from "../models/bookings.js";
-import { getCustomerByID } from "../models/customers.js";
+import { getAllCustomers, getCustomerByID } from "../models/customers.js";
+import { getAllTrainers, getTrainerByID } from "../models/trainers.js";
 
 const exportController = express.Router();
 
-exportController.get("/cruise-list", async(req, res) => {
+exportController.get("/trainer-list", async(req, res) => {
+    // Build list of cruise objects from relational data
+    const [trainers] = await getAllTrainers();
+    for (const trainer of trainers) {
+        trainer["trainers"] = trainer;
+    }
+
+
+    // Generate XML document using template
+    const xml = ejs.render(
+        fs.readFileSync("./src/backend/xml/trainer_list.xml.ejs").toString(), {
+            trainers: trainers,
+        }
+    );
+
+    // Send XML as download
+    res.status(200)
+        .header(
+            "Content-Disposition",
+            'attachment; filename="trainer_list-export.xml"'
+        )
+        .header("Content-Type", "application/xml")
+        .send(xml);
+});
+
+exportController.get("/bookings-list", async(req, res) => {
     // Build list of cruise objects from relational data
     const [cruises] = await getAllCruises();
     for (const cruise of cruises) {
@@ -33,18 +59,11 @@ exportController.get("/cruise-list", async(req, res) => {
         cruise["bookings"] = bookings;
     }
 
-    // Generate XML document using template
-    const xml = ejs.render(
-        fs.readFileSync("./src/backend/xml/cruise-list.xml.ejs").toString(), {
-            cruises: cruises,
-        }
-    );
-
     // Send XML as download
     res.status(200)
         .header(
             "Content-Disposition",
-            'attachment; filename="cruise-list-export.xml"'
+            'attachment; filename="trainer_list-export.xml"'
         )
         .header("Content-Type", "application/xml")
         .send(xml);

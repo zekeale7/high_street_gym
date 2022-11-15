@@ -1,4 +1,8 @@
-import * as React from 'react';
+import { Box } from "@mui/system"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom"
+import { ThemeProvider } from "styled-components"
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,59 +21,47 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "../../style.css"
-
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 
 const theme = createTheme();
 
 export const CreateClasses = () => {
+    const navigate = useNavigate()
 
-  const { register, handleSubmit } = useForm();
-  const [status, setStatus] = useState("");
+  
+    const [classID, setClassID] = useState("");
+    const { register, handleSubmit } = useForm();
 
-  const navigate = useNavigate();
+    const onSubmitCreateBooking = (e) => {
 
-  const onSubmit = (data) => {
-    setStatus("Creating...");
-
-    fetch("/api/classes/create", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    })
-        .then((res) => res.json())
-        .then((res) => {
-            if (res.status == 200) {
-                setStatus(res.message);
-                navigate("/ListClasses");
-            } else {
-                setStatus(res.message);
-            }
+        fetch("/api/classes/create", {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify(e)
         })
-        .catch((error) => {
-            setStatus("failed to fetch: " + error);
-        });
+            .then(res => res.json())
+            .then(res => {
+                alert(res.message)
+                // You would probably want to redirect (navigate) to another page here.
+                navigate("/ListClasses")
+            })
+            .catch(error => {
+                alert(error)
+            })
+    }
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   });
-  };
-
-  return (
+    return (
     <ThemeProvider theme={theme}>
-    <Box sx={{
+         <Box sx={{
           backgroundImage: (`url(${image})`),
           backgroundSize: 'cover',
           backgroundPosition: 'center', 
     }}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
+         <Container component="main" maxWidth="xs">
+         <CssBaseline />
+         <Box
           sx={{
            
             display: 'flex',
@@ -77,110 +69,64 @@ export const CreateClasses = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" sx={{
+        </Avatar>
+        <Typography component="h1" variant="h5" sx={{
               fontFamily: 'Bebas Neue',
           }}>
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          
+          <Box component="form" onSubmit={handleSubmit(onSubmitCreateBooking)} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
                 <TextField
                   name="class_name"
                   required
                   fullWidth
                   id="class_name"
-                  label="Class Name"
+                  label="Class"
                   autoFocus
                   {...register("class_name")}
                   
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  name="duration_minutes"
-                  label="Duration Minutes"
-                  type="duration minutes"
                   id="duration_minutes"
+                  label="Duration Minutes"
+                  name="duration_minutes"
                   {...register("duration_minutes")}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  name="level"
-                  required
-                  fullWidth
-                  id="level"
-                  label="level"
-                  autoFocus
-                  {...register("level")}
-                  
-                />
+                      <TextField 
+                      {...register("level")}
+                      value={classID} 
+                      label="Select Level" 
+                      onChange={(e) => setClassID(e.target.value)} 
+                      select
+                      fullWidth>
+                          <MenuItem value={"Easy"}>Easy</MenuItem>
+                          <MenuItem value={"Medium"}>Medium</MenuItem>
+                          <MenuItem value={"Hard"}>Hard</MenuItem>
+                    </TextField>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="trainer_id"
-                  label="Trainer ID"
-                  name="trainer_id"
-                  {...register("trainer_id")}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
-            </Grid>
-            <Button
+              <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 15 }}
             >
               Sign Up
             </Button>
-            <span>{status}</span>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+        </Grid>
         </Box>
-      </Container>
-      </Box>
+    </Box>
+    </Container>
+    </Box>
     </ThemeProvider>
-  );
-}
-
-{/*export const Signup = () => {
-    return <section>
-         
-        <h2>Sign Up</h2>
-        <form>
-            <label htmlFor="first_name">First Name:</label>
-            <input type="text" name="first_name" id="first_name"/>
-            <label htmlFor="last_name">Last Name:</label>
-            <input type="text" name="last_name" id="last_name"/>
-            <label htmlFor="email">Email:</label>
-            <input type="text" name="email" id="email"/>
-            <label htmlFor="password">Password:</label>
-            <input type="text" name="password" id="password"/>
-            <label htmlFor="password_repeat">Repeat Password:</label>
-            <input type="text" name="password_repeat" id="password_repeat" />
-            <input type="button" value="Sign Up" />
-
-        </form>
-
-</section>
-}*/}
+)}

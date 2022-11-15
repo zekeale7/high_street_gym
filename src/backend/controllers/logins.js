@@ -119,7 +119,7 @@ loginController.post("/login", async(req, res) => {
 
 loginController.get("/byid/:id", (req, res) => {
     // This if statement checks that an ID was provided in the url:
-    // ie. bookings/byid/24 <-- do we have this.
+    // Gets customer by login ID
     if (req.params.id) {
         getCustomerByLoginID(req.params.id)
             .then(([results]) => {
@@ -129,6 +129,42 @@ loginController.get("/byid/:id", (req, res) => {
                     res.status(200).json({
                         status: 200,
                         customer: first_trainer
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Trainer not found"
+                    })
+                }
+            })
+
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Query error",
+                error: error,
+            })
+        })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing Trainer ID from request"
+        })
+    }
+})
+
+loginController.get("/get_trainer_by_id/:id", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // Gets customer by login ID
+    if (req.params.id) {
+        getTrainerByLoginID(req.params.id)
+            .then(([results]) => {
+                // Check that we found a booking
+                if (results.length > 0) {
+                    const first_trainer = results[0]
+                    res.status(200).json({
+                        status: 200,
+                        trainer: first_trainer
                     })
                 } else {
                     res.status(404).json({

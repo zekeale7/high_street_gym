@@ -6,13 +6,20 @@ import validator from "validator"
 
 const trainerController = express.Router();
 
-trainerController.get("/all", (request, response) => {
+trainerController.get("/all", (req, res) => {
     getAllTrainers()
         .then(([results]) => {
-            response.status(200).json(results)
+            res.status(200).json({
+                status: 200,
+                trainer: results,
+            })
         })
         .catch(error => {
-            response.status(500).json(error)
+            res.status(500).json({
+                status: 500,
+                message: "Failed to query trainers",
+                error: error,
+            })
         })
 })
 

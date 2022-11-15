@@ -61,8 +61,9 @@ export const ListBookedClasses = () => {
                 <TableRow>
                     <TableCell>Customer Name:</TableCell>
                     <TableCell>Booking Date:</TableCell>
-                    <TableCell>Customer ID:</TableCell>
                     <TableCell>Trainer:</TableCell>
+                    <TableCell>Class Name:</TableCell>
+                   
                 </TableRow>
                 </TableHead>
                 <TableBody>
@@ -75,16 +76,18 @@ export const ListBookedClasses = () => {
 )}
 
 const BookingItem = ({ class_booking }) => {
-    // Store the activity details for this booking item in the list
+
     const [classes, setClasses] = useState({
         class_name: "Unknown",
         booking_date: "Unknown",
         level: "Unknown"
     })
+      const [bookings, setBookings] = useState({})
+   
 
-    // Load the activity details for this booking item
+    // Load classes from get_class_by_booking_id 
     useEffect(() => {
-        fetch("/api/class_bookings/byid/" + class_booking.class_booking_id)
+        fetch("/api/class_bookings/class_by_booking_id/" + class_booking.class_booking_id)
             .then(res => res.json())
             .then(res => {
                 if (res.status == 200) {
@@ -95,13 +98,39 @@ const BookingItem = ({ class_booking }) => {
             })
     }, [])
 
+     // Load class bookings data
+     useEffect(() => {
+        fetch("/api/class_bookings/byid/" + class_booking.class_booking_id)
+            .then(res => res.json())
+            .then(res => {
+                if (res.status == 200) {
+                    setBookings(res.booking)
+                } else {
+                    console.log("Error loading activity for booking item")
+                }
+            })
+    }, [])
+
+      // Load trainers bookings data
+      useEffect(() => {
+        fetch("/api/class_bookings/byid/" + class_booking.class_booking_id)
+            .then(res => res.json())
+            .then(res => {
+                if (res.status == 200) {
+                    setBookings(res.booking)
+                } else {
+                    console.log("Error loading activity for booking item")
+                }
+            })
+    }, [])
+
     return   <TableRow
     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
   >
         <TableCell component="th" scope="row">{class_booking.first_name} {class_booking.last_name}</TableCell>
-        <TableCell component="th" scope="row">{classes.booking_date}</TableCell>
-        <TableCell component="th" scope="row">{class_booking.customer_id}</TableCell>
-        <TableCell component="th" scope="row">{classes.class_trainer_name}</TableCell>
+        <TableCell component="th" scope="row">{bookings.booking_date}</TableCell>
+        <TableCell component="th" scope="row">{bookings.class_trainer_name}</TableCell>
+        <TableCell component="th" scope="row">{classes.class_name}</TableCell>
 
         <Button variant="contained" sx={{mr: "15px"}}  component={Link} to={"/EditClassBookings/" + class_booking.class_booking_id}>Edit</Button>
         <Button variant="contained" sx={{mr: "15px"}}  component={Link} to={"/DeleteClassBooking/" + class_booking.class_booking_id}>Delete</Button>

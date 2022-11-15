@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, CssBaseline, Grid, TextField, Typography } from "@mui/material"
+import { Button, Card, CardContent, CssBaseline, Grid, MenuItem, TextField, Typography } from "@mui/material"
 import { Box, Container } from "@mui/system"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useEffect, useState } from "react"
@@ -18,7 +18,6 @@ export const EditClasses = () => {
     const [className, setClassName] = useState("John Doe")
     const [durationMinutes, setDurationMinutes] = useState("John Doe")
     const [classLevel, setClassLevel] = useState("John Doe")
-    const [trainerID, setTrainerID] = useState([0])
     const [status, setStatus] = useState("");
 
  
@@ -32,7 +31,6 @@ export const EditClasses = () => {
                     setClassName(classes.class_name)
                     setDurationMinutes(classes.duration_minutes)
                     setClassLevel(classes.level)
-                    setTrainerID(classes.trainer_id)
                 } else {
                     console.log("Request error")
                 }
@@ -44,7 +42,7 @@ export const EditClasses = () => {
 
     // Handle the saving of updated data
     const onSubmitUpdateBooking = (e) => {
-        setStatus("Creating...");
+        setStatus("Updating...");
         e.preventDefault()
 
         const classes = {
@@ -52,7 +50,6 @@ export const EditClasses = () => {
             class_name: className,
             duration_minutes: durationMinutes,
             level: classLevel,
-            trainer_id: trainerID
 
         }
 
@@ -66,6 +63,7 @@ export const EditClasses = () => {
             .then(res => res.json())
             .then(res => {
                 if (res.status == 200) {
+                    alert(res.message)
                     setStatus(res.message);
                     navigate("/ListClasses");
                 } else {
@@ -74,6 +72,7 @@ export const EditClasses = () => {
             })
             .catch((error) => {
                 setStatus("failed to fetch: " + error);
+                alert(error)
             });
     }
 
@@ -102,10 +101,18 @@ return(
                         <TextField fullWidth  label="Duration:" type="text" value={durationMinutes} onChange={(e) => setDurationMinutes(e.target.value)} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField fullWidth  label="Level:" type="text" value={classLevel} onChange={(e) => setClassLevel(e.target.value)} />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField fullWidth  label="Trainer ID:" type="text" value={trainerID} onChange={(e) => setTrainerID(e.target.value)} />
+                        <TextField 
+                            select
+                            fullWidth  
+                            label="Level:" 
+                            type="text" 
+                            value={classLevel} 
+                            onChange={(e) => setClassLevel(e.target.value)} 
+                        >
+                            <MenuItem value={"Easy"}>Easy</MenuItem>
+                            <MenuItem value={"Medium"}>Medium</MenuItem>
+                            <MenuItem value={"Hard"}>Hard</MenuItem>
+                        </TextField>
                     </Grid>
                     <Grid item xs={12} sm={12}>
                     <span>{status}</span>

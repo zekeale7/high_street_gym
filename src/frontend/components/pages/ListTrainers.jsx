@@ -16,18 +16,17 @@ export const ListTrainers = () => {
   
   const [data, setData] = useState([]);
 
-  const getTrainerList = () => {
-    fetch('/api/trainers/all')
-    .then((response) => response.json())
-    .then((json) => {
-      console.log(json);
-      setData(json);
-    })
-  }
-
   useEffect(() => {
-    getTrainerList();
-  }, [])
+    fetch("/api/trainers/all")
+        .then((res) => res.json())
+        .then((response) => {
+            if (response.status == 200) {
+                setData(response.trainer);
+            }
+        });
+}, []);
+
+
 
   return (
     <Box  sx={{backgroundColor: "lightblue"}}>
@@ -41,8 +40,9 @@ export const ListTrainers = () => {
                     pt: '5rem'
                 }} 
                 >Trainers</Typography>
-                <Button variant="contained" sx={{mr: "15px"}}  component={Link} to="/CreateTrainer">Create</Button>
-            </Container>
+               <Button variant="contained" sx={{ mt:"15px", mb: "15px", mr: "15px"}} href={"/api/export/trainer-list"}>Download XML List</Button>
+                <Button variant="contained" sx={{mr: "15px"}}  component={Link} to="/CreateTrainer">Create</Button> 
+      </Container>
     <Container sx={{pt:"25px", pb: "25px"}}>
       <TableContainer component={Paper} sx={{pb: "10%"}}>
       <Table sx={{ minWidth: 650, width: "100%"}} aria-label="simple table">

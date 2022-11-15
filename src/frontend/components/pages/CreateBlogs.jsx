@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "../../style.css"
+import { useEffect } from 'react';
 
 
 
@@ -25,8 +26,34 @@ export const CreateBlogs = () => {
 
   const { register, handleSubmit } = useForm();
   const [status, setStatus] = useState("");
+  const [identity, setIdentity] = useState([])
 
   const navigate = useNavigate();
+
+
+
+   // Load the login details for this booking item
+   useEffect(() => {
+    fetch("/api/logins/identity")
+        .then(res => res.json())
+        .then(res => {
+            if (res.status == 200) {
+
+              if(res.body = res.customer)
+              {
+                setIdentity(res.customer)
+              } 
+
+              if(res.body = res.trainer)
+              {
+                setIdentity(res.trainer)
+              }
+         
+            } else {
+                console.log("Error loading activity for booking item")
+            }
+        })
+}, [])
 
   const onSubmit = (data) => {
     setStatus("Creating...");
@@ -113,27 +140,17 @@ export const CreateBlogs = () => {
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  name="blog_author"
-                  required
-                  fullWidth
-                  id="blog_author"
-                  label="Author"
-                  autoFocus
-                  {...register("blog_author")}
-  
-                  
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
                   name="login_id"
-                  required
+                  readOnly
+                  onChange={(data) => setIdentity(e.target.value)} 
                   fullWidth
                   id="login_id"
                   label="Login ID"
                   autoFocus
-                  {...register("login_id")}
-                />
+                  value={identity.login_id}
+                  {...register("login_id") }             
+                >
+                </TextField>
               </Grid>
             </Grid>
             <Button

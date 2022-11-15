@@ -4,9 +4,11 @@ import {
     getAllClassBookings,
     deleteClassBookingById,
     updateClassBookingById,
-    getClassBookingById
+    getClassByBookingID,
+    getBookingByID
 } from "../models/class_bookings.js"
 import validator from "validator"
+
 
 const classBookingController = express.Router()
 
@@ -33,7 +35,7 @@ classBookingController.get("/byid/:id", (req, res) => {
     // This if statement checks that an ID was provided in the url:
     // ie. bookings/byid/24 <-- do we have this.
     if (req.params.id) {
-        getClassBookingById(req.params.id)
+        getBookingByID(req.params.id)
             .then(([results]) => {
                 // Check that we found a booking
                 if (results.length > 0) {
@@ -69,23 +71,9 @@ classBookingController.post("/create", (req, res) => {
 
     const booking = req.body
 
-    if (!validator.isDate(booking.booking_date, "en-US", { ignore: " -/" })) {
-        res.status(400).json({
-            status: 400,
-            message: "invalid date"
-        })
-        return
-    }
-    if (!validator.isAlphanumeric(booking.class_trainer_name, "en-US", { ignore: " -" })) {
-        res.status(400).json({
-            status: 400,
-            message: "invalid trainer name"
-        })
-        return
-    }
     createClassBooking(
-            validator.escape(booking.booking_date),
-            validator.escape(booking.class_trainer_name),
+            booking.booking_date,
+            booking.trainer_id,
             booking.class_id
         )
         .then(([result]) => {
@@ -112,7 +100,7 @@ classBookingController.patch("/update", (req, res) => {
     updateClassBookingById(
             booking.class_booking_id,
             booking.booking_date,
-            booking.class_trainer_name,
+            booking.trainer_id,
             booking.class_id
         )
         .then(([result]) => {
@@ -155,6 +143,42 @@ classBookingController.delete("/delete/:id", (req, res) => {
                     error: error,
                 })
             })
+    }
+})
+
+// GET /byid/:id - Get a single booking by ID
+classBookingController.get("/class_by_booking_id/:id", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // ie. bookings/byid/24 <-- do we have this.
+    if (req.params.id) {
+        getClassByBookingID(req.params.id)
+            .then(([results]) => {
+                // Check that we found a booking
+                if (results.length > 0) {
+                    const first_booking = results[0]
+                    res.status(200).json({
+                        status: 200,
+                        booking: first_booking
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Booking not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Query error",
+                    error: error,
+                })
+            })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing booking ID from request"
+        })
     }
 })
 

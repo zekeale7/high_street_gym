@@ -5,11 +5,11 @@ import { db_conn } from "../database.js";
 
 
 // Create
-export function createClass(class_name, duration_minutes, level, trainer_id) {
+export function createClass(class_name, duration_minutes, level) {
     return db_conn.query(
         "INSERT INTO classes " +
-        "(class_name, duration_minutes, level, trainer_id) " +
-        "VALUES (?, ?, ?, ?)", [class_name, duration_minutes, level, trainer_id]
+        "(class_name, duration_minutes, level) " +
+        "VALUES (?, ?, ?)", [class_name, duration_minutes, level]
     )
 }
 
@@ -22,11 +22,11 @@ export function getClassByID(class_id) {
 }
 
 // Update
-export function updateClassByID(class_id, class_name, duration_minutes, level, trainer_id) {
+export function updateClassByID(class_id, class_name, duration_minutes, level) {
     return db_conn.query(
         "UPDATE classes " +
-        "SET class_name = ?, duration_minutes = ?, level = ?, trainer_id = ? " +
-        "WHERE class_id = ?", [class_name, duration_minutes, level, trainer_id, class_id]
+        "SET class_name = ?, duration_minutes = ?, level = ? " +
+        "WHERE class_id = ?", [class_name, duration_minutes, level, class_id]
     )
 }
 

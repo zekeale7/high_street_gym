@@ -5,6 +5,7 @@ import Divider from '@mui/material/Divider';
 import Chip from '@mui/material/Chip';
 import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Login } from "@mui/icons-material";
 
 const Root = styled('div')(({ theme }) => ({
     width: '100%',
@@ -50,6 +51,44 @@ export const ListBlogs = () => {
 };
 
 const BlogItem = ({ blog }) => {
+
+    
+    // Load classes from get_class_by_booking_id 
+    const [Login, setLogin] = useState({})
+    const [Trainer, setTrainer] = useState({})
+    useEffect(() => {
+        fetch("/api/logins/byid/" + blog.login_id)
+            .then(res => res.json())
+            .then(res => {
+                if (res.status == 200) {
+                    if(res.body = res.customer)
+                    {
+                      setLogin(res.customer)
+                    } 
+      
+                    if(res.body = res.trainer)
+                    {
+                      setLogin(res.trainer)
+                    }
+                } else {
+                    console.log("Error loading activity for booking item")
+                }
+            })
+    }, [])
+
+     // Load trainers bookings data
+     useEffect(() => {
+        fetch("/api/logins/get_trainer_by_id/" + blog.login_id)
+            .then(res => res.json())
+            .then(res => {
+                if (res.status == 200) {
+                    setTrainer(res.trainer)
+                } else {
+                    console.log("Error loading activity for booking item")
+                }
+            })
+    }, [])
+
     return (
        
             <Root sx={{
@@ -65,7 +104,7 @@ const BlogItem = ({ blog }) => {
             <span>
                 {blog.blog_content ?? "Not specified"}
             </span>
-            <span>{blog.blog_author ?? "Not specified"}</span>
+            <span>Author: {Login.first_name ?? Trainer.first_name} {Login.last_name ?? Trainer.last_name}</span>
              <Button variant="contained" sx={{mr: "15px", width: '200px',}}  component={Link} to={"/EditBlogs/" + blog.blog_id}>Edit</Button>
         <Button variant="contained" sx={{mr: "15px", width: '200px',}}  component={Link} to={"/DeleteBlogs/" + blog.blog_id}>Delete</Button>
             <Divider sx={{mb: "20px",}}></Divider>

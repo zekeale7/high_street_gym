@@ -51,7 +51,7 @@ export const ListClassBookingAdmin = () => {
                   pt: '5rem'
               }} 
               >Class Bookings</Typography>
-              <Button variant="contained" sx={{mr: "15px"}}  component={Link} to={"/CreateClassBookings"}>Create</Button>
+              <Button variant="contained" sx={{mr: "15px"}}  component={Link} to={"/CreateClassBooking"}>Create</Button>
           </Container>
     <Container sx={{pt:"25px", pb: "25px"}}>
        
@@ -94,10 +94,26 @@ const BookingItem = ({ class_booking }) => {
             })
     }, [])
 
+     // Store the activity details for this booking item in the list
+     const [trainer, setTrainer] = useState({})
+
+     // Load the activity details for this booking item
+     useEffect(() => {
+        fetch("/api/trainers/byid/" + class_booking.trainer_id)
+            .then(res => res.json())
+            .then(res => {
+                if (res.status == 200) {
+                    setTrainer(res.trainer)
+                } else {
+                    console.log("Error loading trainers for booking item")
+                }
+            })
+    }, [])
+
     return   <TableRow
     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
   >
-        <TableCell component="th" scope="row">{class_booking.class_trainer_name}</TableCell>
+        <TableCell component="th" scope="row">{trainer.first_name} {trainer.last_name}</TableCell>
         <TableCell component="th" scope="row">{class_booking.booking_date}</TableCell>
         <TableCell component="th" scope="row">{classes.level}</TableCell>
         <TableCell component="th" scope="row">{classes.class_name}</TableCell>

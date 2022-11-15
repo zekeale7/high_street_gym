@@ -16,19 +16,15 @@ export const ListClasses = () => {
   
   const [data, setData] = useState([]);
 
-  const getClassList = () => {
-    fetch('/api/classes/all')
-    .then((response) => response.json())
-    .then((json) => {
-      console.log(json);
-      setData(json);
-    })
-  }
-
   useEffect(() => {
-    getClassList();
-  }, [])
-
+    fetch("/api/classes/all")
+        .then((res) => res.json())
+        .then((response) => {
+            if (response.status == 200) {
+                setData(response.classes);
+            }
+        });
+}, []);
   return (
     <Box  sx={{backgroundColor: "lightblue"}}>
       <Container>

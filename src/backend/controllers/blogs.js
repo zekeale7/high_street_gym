@@ -22,18 +22,11 @@ blogController.post("/create", async(req, res) => {
         })
         return
     }
-    if (!validator.isAlphanumeric(blog.blog_author, "en-US", { ignore: " -" })) {
-        res.status(400).json({
-            status: 400,
-            message: "invalid Author"
-        })
-        return
-    }
+
 
     createBlog(
             validator.escape(blog.blog_title),
             validator.escape(blog.blog_content),
-            validator.escape(blog.blog_author),
             blog.login_id,
         )
         .then(() => {
@@ -85,19 +78,12 @@ blogController.patch("/update", (req, res) => {
         })
         return
     }
-    if (!validator.isAlphanumeric(blog.blog_author, "en-US", { ignore: " -" })) {
-        res.status(400).json({
-            status: 400,
-            message: "invalid Author"
-        })
-        return
-    }
+
 
     updateBlogByID(
             blog.blog_id,
             validator.escape(blog.blog_title),
             validator.escape(blog.blog_content),
-            validator.escape(blog.blog_author),
             blog.login_id,
         )
         .then(([result]) => {

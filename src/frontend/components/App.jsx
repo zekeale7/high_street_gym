@@ -77,9 +77,9 @@ export const App = () => {
                 <Route path="/CreateTrainer" element={<CreateTrainer />}/>
                 <Route path="/CreateBlogs" element={<CreateBlogs />}/>
                 <Route path="/CreateClassBooking" element={<CreateClassBooking />}/>
-                <Route path="/CreateClassBookingMember" element={<CreateClassBookingMember />}/>
+                <Route path="/CreateClassBookingMember/:id" element={<CreateClassBookingMember />}/>
                 <Route path="/AboutUs" element={<AboutUs />}/>
-                <Route path="/Account/:id" element={<Account />}/>
+                <Route path="/Account" element={<Account />}/>
                 <Route path="/CreateClasses" element={<CreateClasses />}/>
                 <Route path="/EditClasses/:id" element={<EditClasses />}/>
                 <Route path="/EditClassBookings/:id" element={<EditClassBookings />}/>

@@ -31,7 +31,7 @@ export const EditBlogs = () => {
                     const blogs = res.blogs
                     setBlogTitle(blogs.blog_title)
                     setBlogContent(blogs.blog_content)
-                    setBlogAuthor(blogs.blog_author)
+                    setLoginID(blogs.login_id)
 
                 } else {
                     console.log("Request error")
@@ -51,8 +51,7 @@ export const EditBlogs = () => {
             blog_id: id,
             blog_title: blogTitle,
             blog_content: blogContent,
-            blog_author: blogAuthor,
-            blog_login: loginID
+            login_id: loginID
 
         }
 
@@ -67,7 +66,7 @@ export const EditBlogs = () => {
         .then(res => {
             if (res.status == 200) {
                 setStatus(res.message);
-                navigate("/ListAdmins");
+                navigate("/ListBlogs");
             } else {
                 setStatus(res.message);
             }
@@ -102,7 +101,7 @@ return(
                         <TextField fullWidth  label="Content:" type="text" value={blogContent} onChange={(e) => setBlogContent(e.target.value)} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <TextField fullWidth label="Author:" type="text" value={blogAuthor} onChange={(e) => setBlogAuthor(e.target.value)} />
+                        <TextField fullWidth label="Author:" type="text" value={loginID} onChange={(e) => setBlogAuthor(e.target.value)} />
                     </Grid>
                     <span>{status}</span>
                     <Grid item xs={12} sm={12}>

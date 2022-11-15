@@ -7,20 +7,18 @@ export function getAllBlogs() {
 export function createBlog(
     blog_title,
     blog_content,
-    blog_author,
     login_id
 ) {
     return db_conn.query(
         `
     INSERT INTO blogs
     (
-        blog_title, blog_content, blog_author, login_id
+        blog_title, blog_content, login_id
     )
-    VALUES (?, ?, ?, ?)
+    VALUES (?, ?, ?)
     `, [
             blog_title,
             blog_content,
-            blog_author,
             login_id
         ]
     );
@@ -37,10 +35,10 @@ export function getBlogByID(blog_id) {
 }
 
 // Update
-export function updateBlogByID(blog_id, blog_title, blog_content, blog_author) {
+export function updateBlogByID(blog_id, blog_title, blog_content) {
     return db_conn.query(
         "UPDATE blogs " +
-        "SET blog_title = ?, blog_content = ?, blog_author = ? " +
-        "WHERE blog_id = ?", [blog_title, blog_content, blog_author, blog_id]
+        "SET blog_title = ?, blog_content = ? " +
+        "WHERE blog_id = ?", [blog_title, blog_content, blog_id]
     )
 }
