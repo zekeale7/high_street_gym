@@ -1,19 +1,15 @@
-import react from 'react'
 import "../../style.css"
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import { flexbox, Stack } from '@mui/system';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {ActionAreaCard} from '../ActionAreaCard';
 import {ImageStack} from '../ImageStack';
-import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import { Grid } from '@mui/material';
 import { experimentalStyled as styled } from '@mui/material/styles';
 import image from '/src/images/pexels-anni-roenkae-2457278.jpg'
 import secondImage from '/src/images/pexels-scott-webb-3255761.jpg'
-import { Link } from 'react-router-dom';
+
 
 const Item = styled(Box)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

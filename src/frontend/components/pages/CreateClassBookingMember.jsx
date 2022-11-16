@@ -15,16 +15,62 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import image from '/src/images/pexels-scott-webb-3255761.jpg'
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../../style.css"
+import { useEffect } from 'react';
 
 
 const theme = createTheme();
 
 export const CreateClassBookingMember = () => {
 
+  const { id } = useParams()
+
   const { register, handleSubmit } = useForm();
   const [status, setStatus] = useState("");
+  const [classBooking, setClassBooking] = useState("")
+  const [identity, setIdentity] = useState("John Doe")
+
+    // Load the existing booking data for this record
+    useEffect(() => {
+      fetch("/api/class_bookings_members/byid/" + id)
+          .then(res => res.json())
+          .then(res => {
+              if (res.status == 200) {
+                  const booking = res.bookings
+                  setClassBooking(booking.class_booking_id)
+              } else {
+                  console.log("Request error")
+              }
+          })
+          .catch(error => {
+              console.log(error)
+          })
+  }, [])
+
+   // Load the login details for this booking item
+   useEffect(() => {
+    fetch("/api/logins/identity")
+        .then(res => res.json())
+        .then(res => {
+            if (res.status == 200) {
+
+              if(res.body = res.customer)
+              {
+                setIdentity(res.customer)
+              } 
+
+              if(res.body = res.trainer)
+              {
+                setIdentity(res.trainer)
+              }
+         
+            } else {
+                console.log("Error loading activity for booking item")
+            }
+        })
+}, [])
+  
 
   const navigate = useNavigate();
 
@@ -117,20 +163,40 @@ export const CreateClassBookingMember = () => {
                   id="class_booking_id"
                   label="Class Booking ID"
                   autoFocus
+                  value={classBooking}
+                  onChange={(data) => setClassBooking(e.target.value)} 
                   {...register("class_booking_id")}
                   
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
+                  name="customer_id"
                   required
                   fullWidth
-                  name="customer_id"
-                  label="Customer ID"
                   id="customer_id"
+                  label="Customer ID"
+                  autoFocus
+                  value={identity.customer_id}
+                  onChange={(data) => setIdentity(e.target.value)} 
                   {...register("customer_id")}
+                  
                 />
               </Grid>
+              {/* <Grid item xs={12} sm={6}>
+                <TextField
+                  name="customer_id"
+                  required
+                  fullWidth
+                  id="customer_id"
+                  label="Customer ID"
+                  autoFocus
+                  value={identity.customer_id}
+                  onChange={(data) => setIdentity(e.target.value)} 
+                  {...register("customer_id")}
+                  
+                />
+              </Grid> */}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}

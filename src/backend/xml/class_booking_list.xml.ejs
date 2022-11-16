@@ -1,0 +1,45 @@
+<!DOCTYPE booking-list [ <!ELEMENT booking-list (bookings*)>
+<!ELEMENT booking (class-booking-id, trainer, booking-class, booking-date)>
+<!ELEMENT class-booking-id (#PCDATA)>
+<!ELEMENT trainer (first-name, last-name)>
+<!ELEMENT first-name (#PCDATA)>
+<!ELEMENT last-name (#PCDATA)>
+<!ELEMENT booking-class (class-name, class-level, class-duration)>
+<!ELEMENT class-name (#PCDATA)>
+<!ELEMENT class-level (#PCDATA)>
+<!ELEMENT class-duration (#PCDATA)>
+<!ELEMENT booking-date (#PCDATA)>
+
+]>
+
+<booking-list>
+    <% for( const booking of bookings) { %>
+        <booking>
+            <class-booking-id>
+                <%- booking.class_booking_id %>
+            </class-booking-id>
+            <booking-date>
+                <%- booking.booking_date %>
+            </booking-date>
+            <trainer>
+                <first-name>
+                    <%- booking.trainers.first_name %>
+                </first-name>
+                <last-name>
+                    <%- booking.trainers.last_name %>
+                </last-name>
+            </trainer>
+            <booking-class>
+                <class-name>
+                    <%- booking.classes.class_name %>
+                </class-name>
+                <class-level>
+                    <%- booking.classes.level %>
+                </class-level>
+                <class-duration>
+                    <%- booking.classes.duration_minutes %>
+                </class-duration>
+            </booking-class>
+        </booking>
+        <% } %>
+</booking-list>

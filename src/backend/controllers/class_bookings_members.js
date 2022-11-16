@@ -67,8 +67,9 @@ classBookingMemberController.post("/create", (req, res) => {
 
             booking.first_name,
             booking.last_name,
-            booking.class_booking_id,
             booking.customer_id,
+            booking.class_booking_id,
+
         )
         .then(([result]) => {
             res.status(200).json({

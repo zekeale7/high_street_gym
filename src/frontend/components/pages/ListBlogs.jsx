@@ -2,10 +2,9 @@ import { Box, Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { styled } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Login } from "@mui/icons-material";
+
 
 const Root = styled('div')(({ theme }) => ({
     width: '100%',

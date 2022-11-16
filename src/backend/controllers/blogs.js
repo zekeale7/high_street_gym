@@ -15,18 +15,12 @@ blogController.post("/create", async(req, res) => {
         })
         return
     }
-    if (!validator.isAlphanumeric(blog.blog_content, "en-US", { ignore: " -" })) {
-        res.status(400).json({
-            status: 400,
-            message: "invalid characters in content"
-        })
-        return
-    }
+
 
 
     createBlog(
             validator.escape(blog.blog_title),
-            validator.escape(blog.blog_content),
+            blog.blog_content,
             blog.login_id,
         )
         .then(() => {
@@ -71,19 +65,13 @@ blogController.patch("/update", (req, res) => {
         })
         return
     }
-    if (!validator.isAlphanumeric(blog.blog_content, "en-US", { ignore: " -" })) {
-        res.status(400).json({
-            status: 400,
-            message: "invalid characters in content"
-        })
-        return
-    }
+
 
 
     updateBlogByID(
             blog.blog_id,
             validator.escape(blog.blog_title),
-            validator.escape(blog.blog_content),
+            blog.blog_content,
             blog.login_id,
         )
         .then(([result]) => {

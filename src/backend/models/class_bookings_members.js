@@ -1,11 +1,11 @@
 import { db_conn } from "../database.js";
 
 // Create
-export function createClassBookingMember(first_name, last_name, class_booking_id, customer_id) {
+export function createClassBookingMember(first_name, last_name, customer_id, class_booking_id) {
     return db_conn.query(
         "INSERT INTO class_bookings_members " +
-        "(first_name, last_name, class_booking_id, customer_id) " +
-        "VALUES (?, ?, ?, ?)", [first_name, last_name, class_booking_id, customer_id]
+        "(first_name, last_name, customer_id, class_booking_id) " +
+        "VALUES (?, ?, ?, ?)", [first_name, last_name, customer_id, class_booking_id]
     )
 }
 

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react"
-import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { Box, Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { styled } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
-import Chip from '@mui/material/Chip';
 import { Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -106,7 +105,7 @@ const BookingItem = ({ booking }) => {
         <span>Date: {booking.booking_date}</span>
         <span>Level: {classes.level}</span>
         <span>Class: {classes.class_name}</span>
-        <Button variant="contained" component={Link} to={"/CreateClassBookingMember"} sx={{
+        <Button variant="contained" component={Link} to={"/CreateClassBookingMember/" + booking.class_booking_id} sx={{
                 fontSize: '13px',
                 width: '200px',
                 padding: '7px',
