@@ -34,12 +34,25 @@ export function deleteClassBookingMemberByID(class_bookings_members_id) {
     return db_conn.query("DELETE FROM class_bookings_members WHERE class_bookings_members_id = ?", [class_bookings_members_id])
 }
 
-export function getBookingDetails() {
+export function getBookingbyCustomer(customer_id) {
+    return db_conn.query(
+        "SELECT * FROM class_bookings_members WHERE customer_id = ?", [customer_id]
+    )
+}
+
+export function getBookingMemberDetails() {
     return db_conn.query(`
         SELECT * 
-        FROM class_bookings
-        INNER JOIN classes 
-        ON class_bookings.class_id = classes.class_id
+        FROM class_bookings_members
+        INNER JOIN class_bookings 
+        ON class_bookings_members.class_booking_id = class_bookings.class_booking_id
     `)
+}
 
+
+
+export function getBookingsFromMemeberBooking(class_booking_id) {
+    return db_conn.query("SELECT * FROM class_bookings_members WHERE class_booking_id = ?", [
+        class_booking_id,
+    ]);
 }

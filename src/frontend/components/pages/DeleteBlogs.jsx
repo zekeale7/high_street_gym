@@ -46,7 +46,7 @@ export const DeleteBlogs = () => {
         <Alert variant="outlined" severity="warning">
         Are you sure you want to delete blog with id {id}
       </Alert>
-      <Button variant="contained" sx={{ mt:"15px", mb: "15px"}} onClick={onClickDeleteButton}>Delete</Button>
+      <Button variant="contained" sx={{ mt:"15px", mb: 60}} onClick={onClickDeleteButton}>Delete</Button>
     </Container>
     </>
 }

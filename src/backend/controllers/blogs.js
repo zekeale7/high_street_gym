@@ -1,5 +1,5 @@
 import express from "express";
-import { createBlog, deleteBlogByID, getAllBlogs, getBlogByID, updateBlogByID } from "../models/blogs.js";
+import { createBlog, deleteBlogByID, getAllBlogs, getBlogByID, getBlogByLoginID, updateBlogByID } from "../models/blogs.js";
 import validator from "validator"
 
 const blogController = express.Router();
@@ -152,6 +152,40 @@ blogController.delete("/delete/:id", (req, res) => {
     }
 })
 
+blogController.get("/get_blogs_by_login/:id", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // Gets customer by login ID
+    if (req.params.id) {
+        getBlogByLoginID(req.params.id)
+            .then(([results]) => {
+                // Check that we found a booking
+                if (results.length > 0) {
+                    res.status(200).json({
+                        status: 200,
+                        blogs: results
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Trainer not found"
+                    })
+                }
+            })
+
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Query error",
+                error: error,
+            })
+        })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing Trainer ID from request"
+        })
+    }
+})
 
 
 export default blogController;

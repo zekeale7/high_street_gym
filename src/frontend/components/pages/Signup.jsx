@@ -88,10 +88,10 @@ export const SignUp = () => {
             <Grid container spacing={4}>
             <Grid item xs={12}>
                 <TextField
-                  name="username"
+                  name="login_username"
                   required
                   fullWidth
-                  id="username"
+                  id="login_username"
                   label="Username"
                   autoFocus
                   {...register("username")}

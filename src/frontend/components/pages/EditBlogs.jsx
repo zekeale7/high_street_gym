@@ -44,7 +44,7 @@ export const EditBlogs = () => {
 
     // Handle the saving of updated data
     const onSubmitUpdateBooking = (e) => {
-        setStatus("Creating...");
+        setStatus("Updating...");
         e.preventDefault()
 
         const blogs = {
@@ -65,6 +65,7 @@ export const EditBlogs = () => {
         .then(res => res.json())
         .then(res => {
             if (res.status == 200) {
+                alert(res.message)
                 setStatus(res.message);
                 navigate("/ListBlogs");
             } else {
@@ -90,18 +91,15 @@ return(
               }} 
               >Edit Blogs</Typography>
         <CssBaseline />
-        <Box component="form" onSubmit={onSubmitUpdateBooking} sx={{ pt: 3, pb: 2 }}>
+        <Box component="form" onSubmit={onSubmitUpdateBooking} sx={{ pt: 3, pb: 50 }}>
             <Card>
                 <CardContent>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                         <TextField fullWidth label="Title:" type="text" value={blogTitle} onChange={(e) => setBlogTitle(e.target.value)} />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField fullWidth  label="Content:" type="text" value={blogContent} onChange={(e) => setBlogContent(e.target.value)} />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField fullWidth label="Author:" type="text" value={loginID} onChange={(e) => setBlogAuthor(e.target.value)} />
+                    <Grid item xs={12}>
+                        <TextField multiline fullWidth  label="Content:" type="text" value={blogContent} onChange={(e) => setBlogContent(e.target.value)} />
                     </Grid>
                     <span>{status}</span>
                     <Grid item xs={12} sm={12}>
@@ -115,7 +113,7 @@ return(
                 </Grid>
             </CardContent>
             </Card>
-        </Box>
+        </Box >
         </Container>
         </Box>
         </ThemeProvider>

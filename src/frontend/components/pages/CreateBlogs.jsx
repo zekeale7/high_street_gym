@@ -24,7 +24,7 @@ const theme = createTheme();
 
 export const CreateBlogs = () => {
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const [status, setStatus] = useState("");
   const [identity, setIdentity] = useState([])
 
@@ -42,11 +42,13 @@ export const CreateBlogs = () => {
               if(res.body = res.customer)
               {
                 setIdentity(res.customer)
+                setValue("login_id", res.customer.login_id)
               } 
 
               if(res.body = res.trainer)
               {
                 setIdentity(res.trainer)
+                setValue("login_id", res.trainer.login_id)
               }
          
             } else {
@@ -70,6 +72,7 @@ export const CreateBlogs = () => {
             if (res.status == 200) {
                 setStatus(res.message);
                 navigate("/ListBlogs");
+                alert(res.message)
             } else {
                 setStatus(res.message);
             }
@@ -138,41 +141,30 @@ export const CreateBlogs = () => {
                   {...register("blog_content")}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="login_id"
-                  readOnly
-                  onChange={(data) => setIdentity(e.target.value)} 
-                  fullWidth
-                  id="login_id"
-                  label="Login ID"
-                  autoFocus
-                  value={identity.login_id}
-                  {...register("login_id") }             
-                >
-                </TextField>
-              </Grid>
             </Grid>
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 54 }}
             >
               Post
             </Button>
             <span>{status}</span>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
+   
       </Container>
+      <Button
+              type="submit"
+              href="/ListBlogs"
+              variant="contained"
+              sx={{ ml: 3, mt: 3, mb: 2 }}
+            >
+               Back
+            </Button>
       </Box>
+
     </ThemeProvider>
   );
 }

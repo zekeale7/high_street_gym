@@ -43,6 +43,7 @@ export const ListClassBookingMember = () => {
     return (
         <Container>
             <h1>Available Classes</h1>
+            <Button variant="contained" sx={{ mt:"15px", mb: "15px", mr: "15px"}} href={"/api/export/class-booking-list"}>Download Class Booking List XML</Button>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',

@@ -134,12 +134,6 @@ export const CreateTrainer = () => {
                   {...register("last_name")}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
             </Grid>
             <Button
               type="submit"
@@ -150,16 +144,17 @@ export const CreateTrainer = () => {
               Sign Up
             </Button>
             <span>{status}</span>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
+      <Button
+              type="submit"
+              href="/ListTrainers"
+              variant="contained"
+              sx={{ ml: 3, mt: 3, mb: 2 }}
+            >
+               Back
+            </Button>
       </Box>
     </ThemeProvider>
   );

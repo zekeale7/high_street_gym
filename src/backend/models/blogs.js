@@ -42,3 +42,9 @@ export function updateBlogByID(blog_id, blog_title, blog_content) {
         "WHERE blog_id = ?", [blog_title, blog_content, blog_id]
     )
 }
+
+export function getBlogByLoginID(login_id) {
+    return db_conn.query("SELECT * FROM blogs WHERE login_id = ?", [
+        login_id,
+    ]);
+}

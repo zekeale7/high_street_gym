@@ -41,6 +41,7 @@ export const ListCustomers = ({customer}) => {
                   pt: '5rem'
               }} 
               >Customers</Typography>
+               <Button variant="contained" sx={{ mt:"15px", mb: "15px", mr: "15px"}} href={"/api/export/member-list"}>Download Customer List XML</Button>
           </Container>
       <Container sx={{pt:"25px", pb: "25px"}}>
       <TableContainer component={Paper} sx={{pb: "10%"}}>

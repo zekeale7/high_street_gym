@@ -1,7 +1,7 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import { createCustomer, deleteCustomerByID, getAllCustomers, getCustomerByID, updateCustomerById } from "../models/customers.js";
-import { createLogin, deleteLoginByID } from "../models/logins.js";
+import { createCustomer, deleteCustomerByID, getAllCustomers, getCustomerByID, updateCustomerById, getCustomerByLoginID } from "../models/customers.js";
+import { createLogin } from "../models/logins.js";
 import validator from "validator"
 
 
@@ -225,13 +225,7 @@ customerController.post("/sign-up", async(req, res) => {
         })
         return
     }
-    if (!validator.isAlphanumeric(signUp.username)) {
-        res.status(400).json({
-            status: 400,
-            message: "invalid Username"
-        })
-        return
-    }
+
 
     // Hash password
     const password_hash = await bcrypt.hash(signUp.password, 6);
@@ -242,7 +236,6 @@ customerController.post("/sign-up", async(req, res) => {
 
     createCustomer(
             login_id,
-            validator.escape(signUp.username),
             validator.escape(signUp.first_name),
             validator.escape(signUp.last_name),
             validator.escape(signUp.phone),

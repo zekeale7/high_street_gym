@@ -234,11 +234,6 @@ export const NavBar = ({logout, loggedIn, customer, trainer, admin}) => {
                     <Link style={{textDecoration: "none", color: "black"}} to={"AboutUs"}>About Us</Link>
                     </Typography>
                 </MenuItem>
-                <MenuItem  onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">
-                  <Link style={{textDecoration: "none", color: "black"}} to={"/ListClassBookingMember"}>Bookings</Link>
-                  </Typography>
-                </MenuItem>
                   <MenuItem onClick={handleCloseNavMenu}>
                       <Typography textAlign="center">
                       <Link style={{textDecoration: "none", color: "black"}} to="/Signup">Signup</Link>
@@ -362,9 +357,6 @@ export const NavBar = ({logout, loggedIn, customer, trainer, admin}) => {
                   <Button onClick={handleCloseNavMenu}>
                       <Link style={{textDecoration: "none", color: "black"}} to="/AboutUs">About Us</Link>   
                   </Button>
-                  <Button onClick={handleCloseNavMenu}>
-                      <Link style={{textDecoration: "none", color: "black"}} to="/ListClassBookingMember">Bookings</Link>   
-                  </Button>  
                   <Button onClick={handleCloseNavMenu}>
                       <Link style={{textDecoration: "none", color: "black"}} to="/Signup">Signup</Link>   
                   </Button>

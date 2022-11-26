@@ -157,12 +157,20 @@ export const CreateClassBooking = () => {
               variant="contained"
               sx={{ mt: 3, mb: 15 }}
             >
-              Sign Up
+              Create Booking
             </Button>
         </Grid>
         </Box>
     </Box>
     </Container>
+    <Button
+              type="submit"
+              href="/ListClassBookingAdmin"
+              variant="contained"
+              sx={{ ml: 3, mt: 3, mb: 2 }}
+            >
+               Back
+            </Button>
     </Box>
     </ThemeProvider>
 )}

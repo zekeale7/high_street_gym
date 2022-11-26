@@ -1,0 +1,50 @@
+<!DOCTYPE member-list [ <!ELEMENT member-list (customers*)>
+<!ELEMENT customer (first-name , last-name, phone, email, country, state, city, street, postcode)>
+<!ELEMENT first-name (#PCDATA)>
+<!ELEMENT last-name (#PCDATA)>
+<!ELEMENT phone (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
+<!ELEMENT country (#PCDATA)>
+<!ELEMENT state (#PCDATA)>
+<!ELEMENT city (#PCDATA)>
+<!ELEMENT street (#PCDATA)>
+<!ELEMENT postcode (#PCDATA)>
+
+]>
+
+<member-list>
+    <% for( const member of members) { %>
+        <customer>
+            <customer-id>
+                <%- member.customer_id %>
+            </customer-id>
+            <first-name>
+                <%- member.first_name %>
+            </first-name>
+            <last-name>
+                <%- member.last_name %>
+            </last-name>
+            <phone>
+                <%- member.phone %>
+            </phone>
+            <email>
+                <%- member.email %>
+            </email>
+            <country>
+                <%- member.country %>
+            </country>
+            <state>
+                <%- member.state %>
+            </state>
+            <city>
+                <%- member.city %>
+            </city>
+            <street>
+                <%- member.street %>
+            </street>
+            <postcode>
+                <%- member.postcode %>
+            </postcode>
+        </customer>
+        <% } %>
+</member-list>

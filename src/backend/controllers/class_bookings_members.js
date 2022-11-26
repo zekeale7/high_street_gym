@@ -1,5 +1,5 @@
 import express from "express"
-import { createClassBookingMember, deleteClassBookingMemberByID, getAllClassBookingMembers, getBookingDetails, getClassBookingMemberByID, updateClassBookingMemberByID } from "../models/class_bookings_members.js"
+import { createClassBookingMember, deleteClassBookingMemberByID, getAllClassBookingMembers, getBookingbyCustomer, getBookingMemberDetails, getBookingsFromMemeberBooking, getClassBookingMemberByID, updateClassBookingMemberByID } from "../models/class_bookings_members.js"
 
 const classBookingMemberController = express.Router()
 
@@ -142,19 +142,118 @@ classBookingMemberController.delete("/delete/:id", (req, res) => {
     }
 })
 
-classBookingMemberController.get("/booking_details/:id", (req, res) => {
-    getBookingDetails(req.params.id)
-        .then(([results]) => {
-            res.status(200).json({
-                status: 200,
-                booking_details: results,
+// classBookingMemberController.get("/booking_details/:id", (req, res) => {
+//     getBookingMemberDetails(req.params.id)
+//         .then(([results]) => {
+//             res.status(200).json({
+//                 status: 200,
+//                 booking_details: results,
+//             })
+//         })
+//         .catch(error => {
+//             res.status(500).json("Failed to get all orders with details")
+//             console.log(error)
+//         })
+// })
+
+// GET /byid/:id - Get a single booking by ID
+classBookingMemberController.get("/booking_details", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // ie. bookings/byid/24 <-- do we have this.
+    if (req.params.id) {
+        getBookingMemberDetails()
+            .then(([results]) => {
+                res.status(200).json({
+                    status: 200,
+                    bookings: results
+                })
             })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Failed to query Member bookings",
+                    error: error,
+                })
+            })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing Member booking ID from request"
         })
-        .catch(error => {
-            res.status(500).json("Failed to get all orders with details")
-            console.log(error)
-        })
+    }
 })
+
+// GET /byid/:id - Get a single booking by ID
+classBookingMemberController.get("/get_booking_by_id/:id", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // ie. bookings/byid/24 <-- do we have this.
+    if (req.params.id) {
+        getBookingsFromMemeberBooking(req.params.id)
+            .then(([results]) => {
+                // Check that we found a booking
+                if (results.length > 0) {
+                    const first_booking = results[0]
+                    res.status(200).json({
+                        status: 200,
+                        booking: first_booking
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Member Booking not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Query error",
+                    error: error,
+                })
+            })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing Member booking ID from request"
+        })
+    }
+})
+
+classBookingMemberController.get("/get_booking_by_customer/:id", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // ie. bookings/byid/24 <-- do we have this.
+    if (req.params.id) {
+        getBookingbyCustomer(req.params.id)
+            .then(([results]) => {
+                // Check that we found a booking
+                if (results.length > 0) {
+                    // const first_booking = results[0]
+                    res.status(200).json({
+                        status: 200,
+                        booking: results
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Member Booking not found"
+                    })
+                }
+            })
+            .catch((error) => {
+                res.status(500).json({
+                    status: 500,
+                    message: "Query error",
+                    error: error,
+                })
+            })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing Member booking ID from request"
+        })
+    }
+})
+
 
 
 export default classBookingMemberController;

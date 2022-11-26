@@ -127,6 +127,14 @@ export const CreateClasses = () => {
         </Box>
     </Box>
     </Container>
+    <Button
+              type="submit"
+              href="/ListClasses"
+              variant="contained"
+              sx={{ ml: 3, mt: 3, mb: 2 }}
+            >
+               Back
+            </Button>
     </Box>
     </ThemeProvider>
 )}

@@ -4,18 +4,25 @@ import { getAllLogins, getLoginByUsername } from "../models/logins.js";
 import { getCustomerByID, getCustomerByLoginID } from "../models/customers.js";
 import { getTrainerByID, getTrainerByLoginID } from "../models/trainers.js";
 import { getAdminByID, getAdminByLoginID } from "../models/admins.js";
+import { getBookingbyCustomer } from "../models/class_bookings_members.js";
 
 const loginController = express.Router();
 
-loginController.get("/all", (request, response) => {
+loginController.get("/all", (req, res) => {
     getAllLogins()
-        .then(([results]) => {
-            response.status(200).json(results)
+        .then(([logins]) => {
+            res.status(200).json({
+                status: 200,
+                logins: logins,
+            });
         })
-        .catch(error => {
-            response.status(500).json(error)
-        })
-})
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Failed to get login list from database",
+            });
+        });
+});
 
 loginController.get("/identity", async(req, res) => {
     let body = {
@@ -187,6 +194,46 @@ loginController.get("/get_trainer_by_id/:id", (req, res) => {
         })
     }
 })
+
+loginController.get("/booking_by_customer_id/:id", (req, res) => {
+    // This if statement checks that an ID was provided in the url:
+    // Gets customer by login ID
+    if (req.params.id) {
+        getBookingbyCustomer(req.params.id)
+            .then(([results]) => {
+                // Check that we found a booking
+                if (results.length > 0) {
+                    const first_trainer = results[0]
+                    res.status(200).json({
+                        status: 200,
+                        booking: first_trainer
+                    })
+                } else {
+                    res.status(404).json({
+                        status: 404,
+                        message: "Trainer not found"
+                    })
+                }
+            })
+
+        .catch((error) => {
+            res.status(500).json({
+                status: 500,
+                message: "Query error",
+                error: error,
+            })
+        })
+    } else {
+        res.status(400).json({
+            status: 400,
+            message: "Missing Trainer ID from request"
+        })
+    }
+})
+
+
+
+
 loginController.post("/logout", (req, res) => {
     req.session.destroy();
     res.status(200).json({

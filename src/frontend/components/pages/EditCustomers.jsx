@@ -79,6 +79,7 @@ export const EditCustomers = () => {
             .then(res => res.json())
             .then(res => {
                 if (res.status == 200) {
+                    alert(res.message)
                     setStatus(res.message);
                     navigate("/ListCustomers");
                 } else {

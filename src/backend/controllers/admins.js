@@ -52,7 +52,6 @@ adminController.post("/sign-up", async(req, res) => {
 
     createAdmin(
             login_id,
-            validator.escape(signUp.username),
             validator.escape(signUp.first_name),
             validator.escape(signUp.last_name),
             password_hash

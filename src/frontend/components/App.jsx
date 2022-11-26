@@ -1,6 +1,5 @@
 import {Routes, Route} from "react-router-dom"
 import {Home} from "./pages/Home"
-import {CruiseList} from "./pages/CruiseList"
 import {Login} from "./pages/Login"
 import {NavBar} from "./NavBar"
 import {SignUp} from "./pages/Signup"
@@ -37,6 +36,7 @@ import { DeleteAdmins } from "./pages/DeleteAdmins"
 import { ListClassBookingMember } from "./pages/ListClassBookingMember"
 import { ListBookedClasses } from "./pages/ListBookedClasses"
 import { CreateClassBookingMember } from "./pages/CreateClassBookingMember"
+import { DeleteBookedClasses } from "./pages/DeleteBookedClasses"
 
 
 
@@ -67,7 +67,6 @@ export const App = () => {
           
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/CruiseList" element={<CruiseList />}/>
                 <Route path="/Signup" element={<SignUp />} />
                 <Route path="/ListClasses" element={<ListClasses />}/>
                 <Route path="/ListBookedClasses" element={<ListBookedClasses />}/>
@@ -93,6 +92,7 @@ export const App = () => {
                 <Route path="/ListBlogs" element={<ListBlogs />}/>
                 <Route path="/DeleteClassBooking/:id" element={<DeleteClassBooking />}/>
                 <Route path="/DeleteCustomer/:id" element={<DeleteCustomer />}/>
+                <Route path="/DeleteBookedClasses/:id" element={<DeleteBookedClasses />}/>
                 <Route path="/DeleteAdmins/:id" element={<DeleteAdmins />}/>
                 <Route path="/DeleteTrainer/:id" element={<DeleteTrainer />}/>
                 <Route path="/DeleteBlogs/:id" element={<DeleteBlogs />}/>

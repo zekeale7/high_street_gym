@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import "../../style.css"
 import { useEffect } from 'react';
+import { Divider } from '@mui/material';
 
 
 const theme = createTheme();
@@ -26,20 +27,22 @@ export const CreateClassBookingMember = () => {
 
   const { id } = useParams()
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue} = useForm();
   const [status, setStatus] = useState("");
-  const [classBooking, setClassBooking] = useState("")
+  // const [classBookingID, setClassBookingID] = useState('')
   const [identity, setIdentity] = useState("John Doe")
+  const [bookingID, setBookingID] = useState("John Doe")
+  const [trainers, setTrainers] = useState("John Doe")
 
     // Load the existing booking data for this record
     useEffect(() => {
-      fetch("/api/class_bookings_members/byid/" + id)
+      fetch("/api/class_bookings/byid/" + id)
           .then(res => res.json())
           .then(res => {
               if (res.status == 200) {
-                  const booking = res.bookings
-                  setClassBooking(booking.class_booking_id)
-              } else {
+                  setValue("class_booking_id", res.booking.class_booking_id)
+                  setBookingID(res.booking)
+                } else {
                   console.log("Request error")
               }
           })
@@ -47,7 +50,8 @@ export const CreateClassBookingMember = () => {
               console.log(error)
           })
   }, [])
-
+  
+  
    // Load the login details for this booking item
    useEffect(() => {
     fetch("/api/logins/identity")
@@ -58,12 +62,11 @@ export const CreateClassBookingMember = () => {
               if(res.body = res.customer)
               {
                 setIdentity(res.customer)
+                setValue("customer_id", res.customer.customer_id)
+                setValue("first_name", res.customer.first_name)
+                setValue("last_name", res.customer.last_name)
               } 
 
-              if(res.body = res.trainer)
-              {
-                setIdentity(res.trainer)
-              }
          
             } else {
                 console.log("Error loading activity for booking item")
@@ -74,7 +77,7 @@ export const CreateClassBookingMember = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
+  const onSubmit = (e) => {
     setStatus("Creating...");
 
     fetch("/api/class_bookings_members/create", {
@@ -82,13 +85,14 @@ export const CreateClassBookingMember = () => {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(e),
     })
         .then((res) => res.json())
         .then((res) => {
             if (res.status == 200) {
+                alert(res.message)
                 setStatus(res.message);
-                navigate("/ListBookedClasses");
+                navigate("/Account");
             } else {
                 setStatus(res.message);
             }
@@ -132,97 +136,46 @@ export const CreateClassBookingMember = () => {
             Sign up
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-                <TextField
-                  name="first_name"
-                  required
-                  fullWidth
-                  id="first_name"
-                  label="First Name"
-                  autoFocus
-                  {...register("first_name")}
-                  
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="last_name"
-                  label="Last Name"
-                  name="last_name"
-                  {...register("last_name")}
-                />
-              </Grid>
-            <Grid item xs={12} sm={6}>
-                <TextField
-                  name="class_booking_id"
-                  required
-                  fullWidth
-                  id="class_booking_id"
-                  label="Class Booking ID"
-                  autoFocus
-                  value={classBooking}
-                  onChange={(data) => setClassBooking(e.target.value)} 
-                  {...register("class_booking_id")}
-                  
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  name="customer_id"
-                  required
-                  fullWidth
-                  id="customer_id"
-                  label="Customer ID"
-                  autoFocus
-                  value={identity.customer_id}
-                  onChange={(data) => setIdentity(e.target.value)} 
-                  {...register("customer_id")}
-                  
-                />
-              </Grid>
-              {/* <Grid item xs={12} sm={6}>
-                <TextField
-                  name="customer_id"
-                  required
-                  fullWidth
-                  id="customer_id"
-                  label="Customer ID"
-                  autoFocus
-                  value={identity.customer_id}
-                  onChange={(data) => setIdentity(e.target.value)} 
-                  {...register("customer_id")}
-                  
-                />
-              </Grid> */}
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
-            </Grid>
+          <Container>
+              <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    backgroundColor: "white",
+                    padding: "15px",
+                    borderRadius: "15px",
+    
+                }}>
+                <Typography component="h1" sx={{
+                  color: "black",
+                  fontSize: "30px",
+                  fontFamily: 'Bebas Neue',
+                }}>Confirm Booking Details</Typography>
+                 <Divider sx={{mb: "20px",}}></Divider>
+                  <span>Full Name: {identity.first_name} {identity.last_name}</span>
+                  <span>Class Booking ID: {bookingID.class_booking_id}</span>  
+                  <Divider sx={{mt: "20px", mb: "20px",}}></Divider> 
+                </Box>
+          </Container> 
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Confirm 
             </Button>
             <span>{status}</span>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
+      <Button
+              type="submit"
+              href="/ListClassBookingMember"
+              variant="contained"
+              sx={{ ml: 3, mt: 3, mb: 55 }}
+            >
+               Cancel Booking
+            </Button>
       </Box>
     </ThemeProvider>
   );
